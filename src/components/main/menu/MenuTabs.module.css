@@ -1,0 +1,40 @@
+.nav {
+  position: fixed;
+  top: 110px;
+  width: 100vw;
+  background-color: white;
+}
+
+.tabs {
+  display: flex;
+  justify-content: flex-start;
+  list-style-type: none;
+  height: 40px;
+}
+
+.tab {
+  width: fit-content;
+}
+
+.button,
+.active {
+  cursor: pointer;
+  height: 100%;
+  border: none;
+  background-color: white;
+  color: black;
+  font-weight: bold;
+  font-size: 1.125rem;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.button:hover,
+.active {
+  background-color: #3f3f3f;
+  color: white;
+}
+
+.active {
+  cursor: initial;
+}

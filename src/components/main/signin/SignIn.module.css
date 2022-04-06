@@ -1,0 +1,38 @@
+.signin {
+  border: 10px solid white;
+  border-radius: 5px;
+  background-color: white;
+  margin: 60px 15px;
+}
+
+.tabs {
+  list-style-type: none;
+  display: flex;
+  justify-content: space-around;
+}
+
+.tab,
+.button {
+  width: 100%;
+}
+
+.button,
+.active {
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  padding: 1rem;
+  background-color: lightgray;
+  border: 1px solid lightgray;
+  border-bottom: white;
+  font-weight: bold;
+  font-size: 1rem;
+  color: darkgray;
+}
+
+.active {
+  cursor: initial;
+  background-color: white;
+  color: black;
+  border-bottom: white;
+}

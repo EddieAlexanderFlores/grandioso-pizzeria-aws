@@ -1,0 +1,135 @@
+.header {
+  position: fixed;
+  top: 110px;
+  width: 100%;
+  background-color: white;
+  height: 40px;
+  padding-left: 15px;
+  border-bottom: 1px solid lightgray;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+}
+
+.message {
+  color: white;
+  font-size: 2rem;
+  padding: 5rem 1rem;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.back-button {
+  position: fixed;
+  top: 115px;
+  cursor: pointer;
+  width: fit-content;
+  height: 30px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  background-color: #cc0000;
+  font-size: 1rsem;
+  font-weight: bold;
+  padding: 0px 10px;
+  margin-left: 5px;
+}
+
+.payment {
+  background-color: white;
+  padding: 30px;
+  margin: 30px 0px;
+}
+
+.table {
+  background-color: white;
+  table-layout: auto;
+  width: 100%;
+  margin-bottom: 20px;
+  font-size: 1.05rem;
+  border-spacing: 0px 10px;
+}
+
+.total {
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.total-title {
+  text-align: left;
+}
+
+.total-amount {
+  text-align: right;
+}
+
+.payment-title {
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.payment-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-element {
+  margin-bottom: 30px;
+}
+
+.StripeElement {
+  height: 40px;
+  padding: 10px 12px;
+  width: 100%;
+  color: #32325d;
+  background-color: white;
+  border: 1px solid transparent;
+  border-radius: 4px;
+
+  box-shadow: 0 1px 3px 0 #e6ebf1;
+  -webkit-transition: box-shadow 150ms ease;
+  transition: box-shadow 150ms ease;
+}
+
+.StripeElement--focus {
+  box-shadow: 0 1px 3px 0 #cfd7df;
+}
+
+.StripeElement--invalid {
+  border-color: #fa755a;
+}
+
+.StripeElement--webkit-autofill {
+  background-color: #fefde5 !important;
+}
+
+.button {
+  cursor: pointer;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  background-color: #cc0000;
+  text-transform: uppercase;
+  width: 100%;
+  height: 40px;
+  font-size: 1.125rem;
+  font-weight: bold;
+}
+
+.back-button:hover,
+.button:hover {
+  background-color: #ff0000;
+}
+
+.back-button:disabled,
+.button:disabled {
+  background-color: lightgray;
+  color: darkgray;
+}
+
+.processing-text {
+  color: #cc0000;
+  font-size: 1.375rem;
+}
