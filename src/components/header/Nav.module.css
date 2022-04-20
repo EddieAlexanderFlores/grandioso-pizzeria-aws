@@ -13,8 +13,7 @@
   width: 100%;
 }
 
-.button,
-.active {
+.button {
   position: relative;
   cursor: pointer;
   width: 100%;
@@ -27,11 +26,12 @@
   color: black;
 }
 
-.button:hover,
-.active {
-  border-bottom-color: #ff0000;
+.button:hover {
+  background-color: lightgray;
 }
 
-.active {
+.button:disabled {
   cursor: initial;
+  border-bottom-color: #ff0000;
+  background-color: #e7e7e7;
 }

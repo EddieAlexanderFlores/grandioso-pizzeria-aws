@@ -13,7 +13,6 @@ const UpdateForm = (props: Props) => {
 
   const onUpdateItemHandler = (event: ChangeEvent<HTMLSelectElement>) => {
     const updatedItemQuantity: number = parseInt(event.target.value, 10);
-    console.log("Update Item Quantity:", updatedItemQuantity);
     props.onUpdateItemQuantity(updatedItemQuantity);
   };
 

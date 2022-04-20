@@ -25,7 +25,7 @@ const MenuItem = (props: Props) => {
         <div className={styles["img-container"]}>
           <img
             className={styles.image}
-            src={props.item.image}
+            src={props.item.imageURL}
             alt={props.item.title}
           />
         </div>

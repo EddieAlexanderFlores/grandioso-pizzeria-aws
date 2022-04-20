@@ -6,21 +6,18 @@ import styles from "./Main.module.css";
 import Menu from "./menu/Menu";
 import SignIn from "./signin/SignIn";
 
-type Props = {
-  content: string;
-};
-
-const Main = (props: Props) => {
-  const user = useAppSelector((state: RootState) => state.user);
+const Main = () => {
+  const username = useAppSelector((state: RootState) => state.user.firstName);
+  const selection = useAppSelector((state: RootState) => state.main.selection);
 
   let content: JSX.Element = <Menu />;
 
-  switch (props.content) {
+  switch (selection) {
     case "menu":
       content = <Menu />;
       break;
     case "signin":
-      if (user.firstName) {
+      if (username) {
         content = <UserAccount />;
       } else {
         content = <SignIn />;

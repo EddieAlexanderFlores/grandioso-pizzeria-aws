@@ -16,8 +16,7 @@
   width: fit-content;
 }
 
-.button,
-.active {
+.button {
   cursor: pointer;
   height: 100%;
   border: none;
@@ -29,12 +28,13 @@
   padding-right: 10px;
 }
 
-.button:hover,
-.active {
-  background-color: #3f3f3f;
-  color: white;
+.button:hover {
+  background-color: lightgray;
+  color: black;
 }
 
-.active {
+.button:disabled {
   cursor: initial;
+  background-color: #3f3f3f;
+  color: white;
 }

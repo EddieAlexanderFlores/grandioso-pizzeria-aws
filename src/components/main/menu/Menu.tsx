@@ -1,50 +1,64 @@
-import {Fragment, MouseEvent, useEffect, useState} from "react";
+import {Fragment, useEffect, useState} from "react";
+import {useAppSelector} from "../../../appStore/hooks";
+import {RootState} from "../../../appStore/store";
 import {MenuItemType} from "../../../mylib/MyTypes";
-import {baseURL} from "../../../mylib/myURL";
 import MenuContent from "./MenuContent";
 import MenuTabs from "./MenuTabs";
+import {API, Storage} from "aws-amplify";
+import {getCategory} from "../../../graphql/queries";
+import {GraphQLResult} from "@aws-amplify/api-graphql";
+import LoaderIcon from "../../ui/icons/LoaderIcon";
+import styles from "./Menu.module.css";
 
 const Menu = () => {
-  const [category, setCategory] = useState<string>("pizza");
   const [menuItems, setMenuItems] = useState<MenuItemType[]>([]);
+  const selection = useAppSelector((state: RootState) => state.menu.selection);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const url: RequestInfo = `${baseURL}/database/grandioso/menu/category/${category}.json`;
-
+    setIsLoading(true);
     const fetchMenuItems = async () => {
       try {
-        const response = await fetch(url);
-        const result = await response.json();
-        const categoryItems: MenuItemType[] = [];
+        const apiData: GraphQLResult<any> = await API.graphql({
+          query: getCategory,
+          variables: {id: selection},
+        });
+        const items: Array<MenuItemType> = apiData.data.getCategory.items.items;
 
-        for (const item of result.data) {
+        const categoryItems: Array<MenuItemType> = [];
+
+        for (const item of items) {
+          const imageURL: string = await Storage.get(item.image, {
+            level: "public",
+          });
           categoryItems.push({
-            itemID: item.id,
+            id: item.id,
             title: item.title,
             description: item.description,
             image: item.image,
+            imageURL: imageURL,
             price: item.price,
           });
         }
-        console.log(categoryItems);
         setMenuItems(categoryItems);
         window.scrollTo({top: 0, left: 0, behavior: "auto"});
+        setIsLoading(false);
       } catch (error) {
         console.log(error);
+        setIsLoading(false);
       }
     };
 
     fetchMenuItems();
-  }, [category]);
+  }, [selection]);
 
-  const categorySelectHandler = (event: MouseEvent<HTMLButtonElement>) => {
-    const categorySelected: string = event.currentTarget.name;
-    setCategory(categorySelected);
-  };
-
-  return (
+  return isLoading ? (
+    <div className={styles.loader}>
+      <LoaderIcon />
+    </div>
+  ) : (
     <Fragment>
-      <MenuTabs onCategorySelect={categorySelectHandler} activeTab={category} />
+      <MenuTabs />
       <MenuContent items={menuItems} />
     </Fragment>
   );

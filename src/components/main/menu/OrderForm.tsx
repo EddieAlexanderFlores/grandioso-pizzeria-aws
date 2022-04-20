@@ -11,14 +11,12 @@ const OrderForm = (props: Props) => {
 
   const submitFormHandler = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(event.currentTarget.quantities.value);
     const itemQuantity: number = parseInt(selectedQuantity, 10);
     props.onAddToOrder(itemQuantity);
   };
 
   const selectChangeHandler = (event: ChangeEvent<HTMLSelectElement>) => {
-    console.log(event.currentTarget.value);
-    setSelectedQuantity(event.target.value);
+    setSelectedQuantity(event.currentTarget.value);
   };
 
   return (

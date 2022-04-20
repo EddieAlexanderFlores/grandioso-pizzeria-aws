@@ -1,29 +1,54 @@
-import {baseURL} from "../../mylib/myURL";
 import styles from "./Header.module.css";
 import Nav from "./Nav";
+import {Storage} from "aws-amplify";
+import {useEffect, useState} from "react";
+import LoaderIcon from "../ui/icons/LoaderIcon";
 
-type Props = {
-  onNavMenuSelect: (text: string) => void;
-};
+const Header = () => {
+  const [banner, setBanner] = useState<string>();
+  const [logo, setLogo] = useState<string>();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
-const Header = (props: Props) => {
-  return (
+  useEffect(() => {
+    setIsLoading(true);
+    const fetchImages = async () => {
+      try {
+        const bannerURL = await Storage.get("images/header/banner-01.jpg", {
+          level: "public",
+        });
+
+        const logoURL = await Storage.get("images/header/grandioso-logo.png", {
+          level: "public",
+        });
+        setBanner(bannerURL);
+        setLogo(logoURL);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+        setIsLoading(false);
+      }
+    };
+
+    fetchImages();
+  }, []);
+
+  return isLoading ? (
+    <div className={styles.loader}>
+      <LoaderIcon />
+    </div>
+  ) : (
     <header className={styles.header}>
       <div className={styles["banner-wrapper"]}>
         <img
           className={styles.banner}
-          src={`${baseURL}/assets/?image=banner/banner-01.jpg`}
+          src={banner}
           alt="Grandioso Pizzeria banner"
         />
       </div>
       <div className={styles["logo-wrapper"]}>
-        <img
-          className={styles.logo}
-          src={`${baseURL}/assets/?image=logo/grandioso-logo.png`}
-          alt="Grandioso Pizzeria logo"
-        />
+        <img className={styles.logo} src={logo} alt="Grandioso Pizzeria logo" />
       </div>
-      <Nav onNavMenuClick={props.onNavMenuSelect} />
+      <Nav />
     </header>
   );
 };

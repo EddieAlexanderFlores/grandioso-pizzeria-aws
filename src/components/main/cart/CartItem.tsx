@@ -1,7 +1,7 @@
 import {useAppDispatch} from "../../../appStore/hooks";
 import {
   removeCartItem,
-  updateCartItem,
+  updateCartItemQuantity,
 } from "../../../appStore/slices/cartSlice";
 import {CartItemType} from "../../../mylib/MyTypes";
 import styles from "./CartItem.module.css";
@@ -18,11 +18,11 @@ const CartItem = (props: Props) => {
   const totalPrice = (props.item.totalPrice / 100).toFixed(2);
 
   const removeItemHandler = () => {
-    dispatch(removeCartItem({itemID: props.item.itemID}));
+    dispatch(removeCartItem({id: props.item.id}));
   };
 
   const updateItemQuantity = (quantity: number) => {
-    dispatch(updateCartItem({itemID: props.item.itemID, quantity}));
+    dispatch(updateCartItemQuantity({id: props.item.id, quantity}));
   };
 
   return (
@@ -31,7 +31,7 @@ const CartItem = (props: Props) => {
         <div className={styles["img-container"]}>
           <img
             className={styles.image}
-            src={props.item.image}
+            src={props.item.imageURL}
             alt={props.item.title}
           />
         </div>

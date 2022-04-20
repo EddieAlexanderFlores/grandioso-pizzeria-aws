@@ -1,54 +1,64 @@
-import {FormEvent} from "react";
+import {FormEvent, useRef} from "react";
+import {UserType} from "../../../mylib/MyTypes";
+import LoaderIcon from "../../ui/icons/LoaderIcon";
 import styles from "./SignInForm.module.css";
 
 type Props = {
   isButtonDisabled: boolean;
-  onSubmitSignUpForm: (
-    fname: string,
-    lname: string,
-    phone: number,
-    email: string,
-    password: string
-  ) => void;
+  onSubmitSignUpForm: (user: Omit<UserType, "address">) => void;
 };
 
 const SignUpForm = (props: Props) => {
+  const firstNameRef = useRef<HTMLInputElement>(null);
+  const lastNameRef = useRef<HTMLInputElement>(null);
+  const telephoneRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+
   const submitFormHandler = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(event.currentTarget.fname.value);
-    const fname = event.currentTarget.fname.value;
-    const lname = event.currentTarget.lname.value;
-    const phone = event.currentTarget.phone.value;
-    const email = event.currentTarget.email.value;
-    const password = event.currentTarget.password.value;
-    props.onSubmitSignUpForm(fname, lname, phone, email, password);
+    const user: Omit<UserType, "address"> = {
+      firstName: firstNameRef.current!.value,
+      lastName: lastNameRef.current!.value,
+      email: emailRef.current!.value,
+      telephone: telephoneRef.current!.value,
+      password: passwordRef.current!.value,
+    };
+    props.onSubmitSignUpForm(user);
   };
 
-  return (
+  return props.isButtonDisabled ? (
+    <div className={styles.loader}>
+      <h3 className={styles.title}>Creating Account . . .</h3>
+      <LoaderIcon />
+    </div>
+  ) : (
     <form className={styles.form} onSubmit={submitFormHandler}>
-      <label className={styles.label} htmlFor="fname">
+      <label className={styles.label} htmlFor="firstName">
         First Name *
       </label>
       <input
         className={styles.input}
-        id="fname"
+        id="firstName"
         type="text"
-        name="fname"
+        name="firstName"
         autoComplete="given-name"
         required={true}
         maxLength={50}
+        ref={firstNameRef}
       />
-      <label className={styles.label} htmlFor="lname">
+      <label className={styles.label} htmlFor="lastName">
         Last Name *
       </label>
       <input
         className={styles.input}
-        id="lname"
+        id="lastName"
         type="text"
-        name="lname"
+        name="lastName"
         autoComplete="family-name"
         required={true}
         maxLength={50}
+        ref={lastNameRef}
       />
       <label className={styles.label} htmlFor="email">
         Email Address *
@@ -61,18 +71,20 @@ const SignUpForm = (props: Props) => {
         autoComplete="email"
         required={true}
         maxLength={50}
+        ref={emailRef}
       />
-      <label className={styles.label} htmlFor="phone">
+      <label className={styles.label} htmlFor="telephone">
         Phone Number *
       </label>
       <input
         className={styles.input}
-        id="phone"
+        id="telephone"
         type="tel"
-        name="phone"
+        name="telephone"
         autoComplete="tel-national"
         required={true}
         maxLength={10}
+        ref={telephoneRef}
       />
       <label className={styles.label} htmlFor="password">
         Create Password *
@@ -85,6 +97,7 @@ const SignUpForm = (props: Props) => {
         autoComplete="off"
         required={true}
         maxLength={50}
+        ref={passwordRef}
       />
       <button
         className={styles.button}

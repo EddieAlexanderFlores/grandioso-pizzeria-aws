@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "serviceConfiguration": {
+    "apiName": "grandiosopizzeriaaws",
+    "serviceName": "AppSync",
+    "gqlSchemaPath": "D:\\VSCode\\websites\\react-js\\grandioso-pizzeria-aws\\amplify\\backend\\api\\grandiosopizzeriaaws\\schema.graphql",
+    "defaultAuthType": {
+      "mode": "API_KEY",
+      "expirationTime": 7
+    },
+    "additionalAuthTypes": [
+      {
+        "mode": "AMAZON_COGNITO_USER_POOLS",
+        "cognitoUserPoolId": "authgrandiosopizzeriaaws23f4ad80"
+      }
+    ]
+  }
+}

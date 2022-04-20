@@ -1,0 +1,21 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-amplifya5c3a81e928e4-staging-145504-authRole",
+      "UnauthRoleArn": "arn:aws:iam::402181686734:role/amplify-amplifya5c3a81e928e4-staging-145504-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::402181686734:role/amplify-amplifya5c3a81e928e4-staging-145504-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-amplifya5c3a81e928e4-staging-145504-deployment",
+      "UnauthRoleName": "amplify-amplifya5c3a81e928e4-staging-145504-unauthRole",
+      "StackName": "amplify-amplifya5c3a81e928e4-staging-145504",
+      "StackId": "arn:aws:cloudformation:us-east-1:402181686734:stack/amplify-amplifya5c3a81e928e4-staging-145504/8aff5810-b5b9-11ec-acd9-124ff0fb9db5",
+      "AmplifyAppId": "d1t2p8ezpu4zf0"
+    },
+    "categories": {
+      "auth": {
+        "grandiosopizzeriaaws23f4ad80": {},
+        "true": {}
+      }
+    }
+  }
+}

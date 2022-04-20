@@ -1,47 +1,50 @@
-import {MouseEventHandler} from "react";
+import {MouseEvent, MouseEventHandler} from "react";
+import {useAppDispatch, useAppSelector} from "../../../appStore/hooks";
+import {RootState} from "../../../appStore/store";
+import {setMenuContent} from "../../../appStore/slices/menuSlice";
 import styles from "./MenuTabs.module.css";
+import {MenuContentType, MenuSelectionType} from "../../../mylib/MyTypes";
 
-type Props = {
-  onCategorySelect: MouseEventHandler<HTMLButtonElement>;
-  activeTab: string;
-};
+const MenuTabs = () => {
+  const selection = useAppSelector((state: RootState) => state.menu.selection);
+  const dispatch = useAppDispatch();
 
-const MenuTabs = (props: Props) => {
+  const setContentHandler = (event: MouseEvent<HTMLButtonElement>) => {
+    const content: MenuContentType = {
+      selection: event.currentTarget.name as MenuSelectionType,
+    };
+    dispatch(setMenuContent(content));
+  };
+
   return (
     <nav className={styles.nav}>
       <ul className={styles.tabs}>
         <li className={styles.tab}>
           <button
-            className={
-              props.activeTab === "pizza" ? styles.active : styles.button
-            }
+            className={styles.button}
             name="pizza"
-            disabled={props.activeTab === "pizza"}
-            onClick={props.onCategorySelect}
+            disabled={selection === "pizza"}
+            onClick={setContentHandler}
           >
             Pizza
           </button>
         </li>
         <li className={styles.tab}>
           <button
-            className={
-              props.activeTab === "sides" ? styles.active : styles.button
-            }
+            className={styles.button}
             name="sides"
-            disabled={props.activeTab === "sides"}
-            onClick={props.onCategorySelect}
+            disabled={selection === "sides"}
+            onClick={setContentHandler}
           >
             Sides
           </button>
         </li>
         <li className={styles.tab}>
           <button
-            className={
-              props.activeTab === "drinks" ? styles.active : styles.button
-            }
+            className={styles.button}
             name="drinks"
-            disabled={props.activeTab === "drinks"}
-            onClick={props.onCategorySelect}
+            disabled={selection === "drinks"}
+            onClick={setContentHandler}
           >
             Drinks
           </button>

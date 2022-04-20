@@ -1,6 +1,9 @@
-import {Fragment, MouseEventHandler, useState} from "react";
-import {useAppSelector} from "../../../appStore/hooks";
+import {Storage} from "aws-amplify";
+import {Fragment, MouseEventHandler, useEffect, useState} from "react";
+import {useAppDispatch, useAppSelector} from "../../../appStore/hooks";
+import {setCartItemImageURL} from "../../../appStore/slices/cartSlice";
 import {RootState} from "../../../appStore/store";
+import LoaderIcon from "../../ui/icons/LoaderIcon";
 import styles from "./CartContent.module.css";
 import CartItem from "./CartItem";
 
@@ -9,9 +12,12 @@ type Props = {
 };
 
 const CartContent = (props: Props) => {
-  const [isCheckOutBtnDisabled, setIsCheckOutBtnDisabled] = useState(false);
+  const [isCheckOutBtnDisabled, setIsCheckOutBtnDisabled] =
+    useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const cart = useAppSelector((state: RootState) => state.cart);
   const user = useAppSelector((state: RootState) => state.user);
+  const dispatch = useAppDispatch();
 
   const subtotal = (cart.subtotal / 100).toFixed(2);
   const tax = (cart.tax / 100).toFixed(2);
@@ -20,10 +26,34 @@ const CartContent = (props: Props) => {
   console.log("# of Cart Orders", cart.items.length);
   console.log(
     "Orders:",
-    cart.items.map((item) => item.itemID)
+    cart.items.map((item) => item.id)
   );
 
-  return (
+  useEffect(() => {
+    setIsLoading(true);
+    const setImageURL = async () => {
+      try {
+        for (const item of cart.items) {
+          const imageURL: string = await Storage.get(item.image, {
+            level: "public",
+          });
+          console.log("Cart Item:", item.id);
+          dispatch(setCartItemImageURL({id: item.id, imageURL}));
+        }
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+        setIsLoading(false);
+      }
+    };
+    setImageURL();
+  }, []);
+
+  return isLoading ? (
+    <div className={styles.loader}>
+      <LoaderIcon />
+    </div>
+  ) : (
     <Fragment>
       <h2 className={styles.header}>My Cart</h2>
       {!user.firstName && (
@@ -36,7 +66,7 @@ const CartContent = (props: Props) => {
       ) : (
         <ul className={styles["cart-list"]}>
           {cart.items.map((item) => (
-            <CartItem key={item.itemID} item={item} />
+            <CartItem key={item.id} item={item} />
           ))}
         </ul>
       )}

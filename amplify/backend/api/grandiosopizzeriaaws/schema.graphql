@@ -1,0 +1,97 @@
+# This "input" configures a global authorization rule to enable public access to
+# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
+# =====================================================
+# input AMPLIFY {globalAuthRule: AuthRule = {allow: public}} # FOR TESTING ONLY!
+# ================================================================================
+type Menu
+  @model
+  @auth(
+    rules: [
+      {allow: public, operations: [read]}
+      {allow: groups, groups: ["Administrators"]}
+    ]
+  ) {
+  id: ID!
+  name: String!
+  categories: [Category!]! @hasMany
+}
+
+type Category
+  @model
+  @auth(
+    rules: [
+      {allow: public, operations: [read]}
+      {allow: groups, groups: ["Administrators"]}
+    ]
+  ) {
+  id: ID!
+  name: String!
+  menu: Menu @belongsTo
+  items: [Item!]! @hasMany
+}
+
+type Item
+  @model
+  @auth(
+    rules: [
+      {allow: public, operations: [read]}
+      {allow: groups, groups: ["Administrators"]}
+    ]
+  ) {
+  id: ID!
+  title: String!
+  description: String!
+  image: String!
+  price: Int!
+  category: Category @belongsTo
+}
+# ================================================================================
+type Customer
+  @model
+  @auth(
+    rules: [
+      {allow: owner, operations: [create, read]}
+      {allow: groups, groups: ["Administrators"]}
+    ]
+  ) {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  email: String!
+  orders: [Order!] @hasMany
+}
+
+type Order
+  @model
+  @auth(
+    rules: [
+      {allow: owner, operations: [create, read]}
+      {allow: groups, groups: ["Administrators"]}
+    ]
+  ) {
+  id: ID!
+  items: [OrderItem!]! @hasMany
+  totalItems: Int!
+  subtotal: Int!
+  tax: Int!
+  total: Int!
+  customer: Customer @belongsTo
+}
+
+type OrderItem
+  @model
+  @auth(
+    rules: [
+      {allow: owner, operations: [create, read]}
+      {allow: groups, groups: ["Administrators"]}
+    ]
+  ) {
+  id: ID!
+  title: String!
+  description: String!
+  image: String!
+  price: Int!
+  quantity: Int!
+  totalPrice: Int!
+  order: Order @belongsTo
+}

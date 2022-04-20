@@ -1,18 +1,8 @@
 import {createSlice, PayloadAction, Slice} from "@reduxjs/toolkit";
 import {CartItemType, CartStateType, MenuItemType} from "../../mylib/MyTypes";
 
-// const initialItemState: CartItem = {
-//   menuItemID: "",
-//   cartItemID: 0,
-//   image: "",
-//   title: "",
-//   price: 0,
-//   description: "",
-//   quantity: 0,
-// };
-
 const initialCartState: CartStateType = {
-  orderID: 0,
+  orderID: "",
   items: [],
   totalItems: 0,
   subtotal: 0,
@@ -37,47 +27,44 @@ const cartSlice: Slice<CartStateType> = createSlice({
         title: itemToAdd.title,
         description: itemToAdd.description,
         image: itemToAdd.image,
+        imageURL: itemToAdd.imageURL,
         price: itemToAdd.price,
         quantity,
-        itemID: 0,
+        id: 0,
         totalPrice: 0,
       };
 
       state.totalItems += newItem.quantity;
       newItem.totalPrice = newItem.price * newItem.quantity;
       state.subtotal += newItem.totalPrice;
-      state.tax = state.subtotal * taxRate;
+      state.tax = Math.round(state.subtotal * taxRate);
       state.total = state.subtotal + state.tax;
       state.items.push(newItem);
       state.items.forEach((item, i) => {
-        item.itemID = 1001 + i;
+        item.id = 1001 + i;
       });
     },
-    removeCartItem: (state, action: PayloadAction<{itemID: number}>) => {
-      const itemIdToMatch = action.payload.itemID;
+    removeCartItem: (state, action: PayloadAction<{id: number}>) => {
+      const idToMatch = action.payload.id;
       const indexOfItemToRemove = state.items.findIndex(
-        (item) => item.itemID === itemIdToMatch
+        (item) => item.id === idToMatch
       );
       const itemToRemove = state.items[indexOfItemToRemove];
       state.totalItems -= itemToRemove.quantity;
       state.subtotal -= itemToRemove.totalPrice;
       state.tax = state.subtotal * taxRate;
       state.total = state.subtotal + state.tax;
-      const filteredItems = state.items.filter(
-        (item) => item.itemID !== itemIdToMatch
-      );
+      const filteredItems = state.items.filter((item) => item.id !== idToMatch);
       state.items = filteredItems;
     },
-    updateCartItem: (
+    updateCartItemQuantity: (
       state,
-      action: PayloadAction<{itemID: number; quantity: number}>
+      action: PayloadAction<{id: number; quantity: number}>
     ) => {
-      console.log(action);
-
-      const itemIdToMatch = action.payload.itemID;
+      const idToMatch = action.payload.id;
       const newQuantity = action.payload.quantity;
       const indexOfItemToUpdate = state.items.findIndex(
-        (item) => item.itemID === itemIdToMatch
+        (item) => item.id === idToMatch
       );
       const itemUpdates = state.items[indexOfItemToUpdate];
       itemUpdates.quantity = newQuantity;
@@ -94,13 +81,30 @@ const cartSlice: Slice<CartStateType> = createSlice({
       state.tax = state.subtotal * taxRate;
       state.total = state.subtotal + state.tax;
     },
-    emptyCart: (state) => {
-      state = initialCartState;
+    setCartItemImageURL: (
+      state,
+      action: PayloadAction<{id: number; imageURL: string}>
+    ) => {
+      const idToMatch = action.payload.id;
+      const newImageURL = action.payload.imageURL;
+      const indexOfItemToUpdate = state.items.findIndex(
+        (item) => item.id === idToMatch
+      );
+      state.items[indexOfItemToUpdate].imageURL = newImageURL;
+    },
+    setCartOrderID: (state, action: PayloadAction<{orderID: string}>) => {
+      state.orderID = action.payload.orderID;
     },
   },
 });
 
 //export const selectTotalItems = (state: RootState) => state.cart.totalItems;
-export const {addItemToCart, removeCartItem, updateCartItem, emptyCart} =
-  cartSlice.actions;
+export const {
+  addItemToCart,
+  removeCartItem,
+  updateCartItemQuantity,
+  setCartItemImageURL,
+  setCartOrderID,
+  emptyCart,
+} = cartSlice.actions;
 export default cartSlice.reducer;

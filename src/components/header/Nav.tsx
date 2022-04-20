@@ -1,22 +1,21 @@
-import {MouseEvent, useState} from "react";
-import {useAppSelector} from "../../appStore/hooks";
+import {MouseEvent} from "react";
+import {useAppDispatch, useAppSelector} from "../../appStore/hooks";
+import {setMainContent} from "../../appStore/slices/mainSlice";
 import {RootState} from "../../appStore/store";
+import {MainContentType, MainSelectionType} from "../../mylib/MyTypes";
 import CartButton from "./CartButton";
 import styles from "./Nav.module.css";
 
-type Props = {
-  onNavMenuClick: (text: string) => void;
-};
-
-const Nav = (props: Props) => {
+const Nav = () => {
   const userName = useAppSelector((state: RootState) => state.user.firstName);
-  const [activeNavMenu, setActiveNavMenu] = useState<string>("menu");
+  const selection = useAppSelector((state: RootState) => state.main.selection);
+  const dispatch = useAppDispatch();
 
-  const navMenuClickHandler = (event: MouseEvent<HTMLButtonElement>) => {
-    console.log(event.currentTarget.name);
-    const navMenuSelected: string = event.currentTarget.name;
-    setActiveNavMenu(navMenuSelected);
-    props.onNavMenuClick(navMenuSelected);
+  const setContentHandler = (event: MouseEvent<HTMLButtonElement>) => {
+    const content: MainContentType = {
+      selection: event.currentTarget.name as MainSelectionType,
+    };
+    dispatch(setMainContent(content));
   };
 
   const shortName = userName?.slice(0, 9);
@@ -26,32 +25,30 @@ const Nav = (props: Props) => {
       <ul className={styles.links}>
         <li className={styles.link}>
           <button
-            className={activeNavMenu === "menu" ? styles.active : styles.button}
+            className={styles.button}
             name="menu"
-            disabled={activeNavMenu === "menu"}
-            onClick={navMenuClickHandler}
+            disabled={selection === "menu"}
+            onClick={setContentHandler}
           >
             MENU
           </button>
         </li>
         <li className={styles.link}>
           <button
-            className={
-              activeNavMenu === "signin" ? styles.active : styles.button
-            }
+            className={styles.button}
             name="signin"
-            disabled={activeNavMenu === "signin"}
-            onClick={navMenuClickHandler}
+            disabled={selection === "signin"}
+            onClick={setContentHandler}
           >
             {shortName ? `Hi, ${shortName}` : `SIGN IN`}
           </button>
         </li>
         <li className={styles.link}>
           <CartButton
-            className={activeNavMenu === "cart" ? styles.active : styles.button}
+            className={styles.button}
             name="cart"
-            disabled={activeNavMenu === "cart"}
-            onClick={navMenuClickHandler}
+            disabled={selection === "cart"}
+            onClick={setContentHandler}
           />
         </li>
       </ul>

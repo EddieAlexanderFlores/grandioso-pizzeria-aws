@@ -1,4 +1,5 @@
 import {FormEvent, useRef} from "react";
+import LoaderIcon from "../../ui/icons/LoaderIcon";
 import styles from "./SignInForm.module.css";
 
 type Props = {
@@ -7,18 +8,23 @@ type Props = {
 };
 
 const SignInForm = (props: Props) => {
-  const emailInputRef = useRef<HTMLInputElement>(null);
-  const passwordInputRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
 
   const submitFormHandler = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(emailInputRef.current?.value, passwordInputRef.current?.value);
-    const email = emailInputRef.current!.value;
-    const password = passwordInputRef.current!.value;
-    props.onSubmitSignInForm(email, password);
+    props.onSubmitSignInForm(
+      emailRef.current!.value,
+      passwordRef.current!.value
+    );
   };
 
-  return (
+  return props.isButtonDisabled ? (
+    <div className={styles.loader}>
+      <h3 className={styles.title}>Signing In . . .</h3>
+      <LoaderIcon />
+    </div>
+  ) : (
     <form className={styles.form} onSubmit={submitFormHandler}>
       <label className={styles.label} htmlFor="email">
         Email Address *
@@ -31,7 +37,7 @@ const SignInForm = (props: Props) => {
         autoComplete="email"
         required={true}
         maxLength={100}
-        ref={emailInputRef}
+        ref={emailRef}
       />
       <label className={styles.label} htmlFor="password">
         Password *
@@ -44,7 +50,7 @@ const SignInForm = (props: Props) => {
         autoComplete="current-password"
         required={true}
         maxLength={100}
-        ref={passwordInputRef}
+        ref={passwordRef}
       />
       <button
         className={styles.button}

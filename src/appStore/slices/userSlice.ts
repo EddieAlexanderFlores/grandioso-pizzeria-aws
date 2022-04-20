@@ -1,19 +1,24 @@
 import {createSlice, PayloadAction, Slice} from "@reduxjs/toolkit";
-import {UserType} from "../../mylib/MyTypes";
+import {AddressType, UserType} from "../../mylib/MyTypes";
 
-// const address: Partial<Address> = {
-//   street: null,
-//   apt: null,
-//   city: null,
-//   state: null,
-//   zipCode: null,
-// };
-
-const initialUserState: Partial<UserType> = {
-  firstName: "",
+export const initialAddressState: AddressType = {
+  street: "",
+  apt: "",
+  city: "",
+  state: "",
+  zipCode: "",
 };
 
-const userSlice: Slice<Partial<UserType>> = createSlice({
+export const initialUserState: UserType = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  telephone: "",
+  password: "",
+  address: initialAddressState,
+};
+
+const userSlice: Slice<UserType> = createSlice({
   name: "user",
   initialState: initialUserState,
   reducers: {
@@ -28,5 +33,5 @@ const userSlice: Slice<Partial<UserType>> = createSlice({
   },
 });
 
-export const {setUserInfo} = userSlice.actions;
+export const {resetUserInfo, setUserInfo} = userSlice.actions;
 export default userSlice.reducer;
