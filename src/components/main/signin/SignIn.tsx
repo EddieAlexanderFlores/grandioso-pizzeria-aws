@@ -102,11 +102,6 @@ const SignIn = () => {
         console.log("An account with the given email already exists.");
         // Take them to Sign In Form
         break;
-      case "UserNotFoundException":
-        console.log("User does not exist.");
-        // Take them to Sign Up Form.
-        break;
-
       default:
         break;
     }

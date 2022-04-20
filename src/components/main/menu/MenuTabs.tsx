@@ -1,4 +1,4 @@
-import {MouseEvent, MouseEventHandler} from "react";
+import {MouseEvent} from "react";
 import {useAppDispatch, useAppSelector} from "../../../appStore/hooks";
 import {RootState} from "../../../appStore/store";
 import {setMenuContent} from "../../../appStore/slices/menuSlice";
