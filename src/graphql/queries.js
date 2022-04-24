@@ -6,13 +6,13 @@ export const getMenu = /* GraphQL */ `
     getMenu(id: $id) {
       id
       name
-      categories {
+      menuCategories {
         items {
           id
+          menuID
           name
           createdAt
           updatedAt
-          menuCategoriesId
         }
         nextToken
       }
@@ -31,7 +31,7 @@ export const listMenus = /* GraphQL */ `
       items {
         id
         name
-        categories {
+        menuCategories {
           nextToken
         }
         createdAt
@@ -41,119 +41,81 @@ export const listMenus = /* GraphQL */ `
     }
   }
 `;
-export const getCategory = /* GraphQL */ `
-  query GetCategory($id: ID!) {
-    getCategory(id: $id) {
+export const getMenuCategory = /* GraphQL */ `
+  query GetMenuCategory($id: ID!) {
+    getMenuCategory(id: $id) {
       id
+      menuID
       name
-      menu {
-        id
-        name
-        categories {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      items {
+      menuItems {
         items {
           id
+          menuCategoryID
           title
-          description
           image
+          description
           price
           createdAt
           updatedAt
-          categoryItemsId
         }
         nextToken
       }
       createdAt
       updatedAt
-      menuCategoriesId
     }
   }
 `;
-export const listCategories = /* GraphQL */ `
-  query ListCategories(
-    $filter: ModelCategoryFilterInput
+export const listMenuCategories = /* GraphQL */ `
+  query ListMenuCategories(
+    $filter: ModelMenuCategoryFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listCategories(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listMenuCategories(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        menuID
         name
-        menu {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        items {
+        menuItems {
           nextToken
         }
         createdAt
         updatedAt
-        menuCategoriesId
       }
       nextToken
     }
   }
 `;
-export const getItem = /* GraphQL */ `
-  query GetItem($id: ID!) {
-    getItem(id: $id) {
+export const getMenuItem = /* GraphQL */ `
+  query GetMenuItem($id: ID!) {
+    getMenuItem(id: $id) {
       id
+      menuCategoryID
       title
-      description
       image
+      description
       price
-      category {
-        id
-        name
-        menu {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        items {
-          nextToken
-        }
-        createdAt
-        updatedAt
-        menuCategoriesId
-      }
       createdAt
       updatedAt
-      categoryItemsId
     }
   }
 `;
-export const listItems = /* GraphQL */ `
-  query ListItems(
-    $filter: ModelItemFilterInput
+export const listMenuItems = /* GraphQL */ `
+  query ListMenuItems(
+    $filter: ModelMenuItemFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listItems(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listMenuItems(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        menuCategoryID
         title
-        description
         image
+        description
         price
-        category {
-          id
-          name
-          createdAt
-          updatedAt
-          menuCategoriesId
-        }
         createdAt
         updatedAt
-        categoryItemsId
       }
       nextToken
     }
@@ -169,13 +131,14 @@ export const getCustomer = /* GraphQL */ `
       orders {
         items {
           id
+          customerID
+          email
           totalItems
           subtotal
           tax
           total
           createdAt
           updatedAt
-          customerOrdersId
           owner
         }
         nextToken
@@ -213,41 +176,26 @@ export const getOrder = /* GraphQL */ `
   query GetOrder($id: ID!) {
     getOrder(id: $id) {
       id
-      items {
-        items {
-          id
-          title
-          description
-          image
-          price
-          quantity
-          totalPrice
-          createdAt
-          updatedAt
-          orderItemsId
-          owner
-        }
-        nextToken
-      }
+      customerID
+      email
       totalItems
       subtotal
       tax
       total
-      customer {
-        id
-        firstName
-        lastName
-        email
-        orders {
-          nextToken
+      items {
+        items {
+          id
+          orderID
+          menuItemID
+          quantity
+          createdAt
+          updatedAt
+          owner
         }
-        createdAt
-        updatedAt
-        owner
+        nextToken
       }
       createdAt
       updatedAt
-      customerOrdersId
       owner
     }
   }
@@ -261,25 +209,17 @@ export const listOrders = /* GraphQL */ `
     listOrders(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        items {
-          nextToken
-        }
+        customerID
+        email
         totalItems
         subtotal
         tax
         total
-        customer {
-          id
-          firstName
-          lastName
-          email
-          createdAt
-          updatedAt
-          owner
+        items {
+          nextToken
         }
         createdAt
         updatedAt
-        customerOrdersId
         owner
       }
       nextToken
@@ -290,38 +230,11 @@ export const getOrderItem = /* GraphQL */ `
   query GetOrderItem($id: ID!) {
     getOrderItem(id: $id) {
       id
-      title
-      description
-      image
-      price
+      orderID
+      menuItemID
       quantity
-      totalPrice
-      order {
-        id
-        items {
-          nextToken
-        }
-        totalItems
-        subtotal
-        tax
-        total
-        customer {
-          id
-          firstName
-          lastName
-          email
-          createdAt
-          updatedAt
-          owner
-        }
-        createdAt
-        updatedAt
-        customerOrdersId
-        owner
-      }
       createdAt
       updatedAt
-      orderItemsId
       owner
     }
   }
@@ -335,26 +248,11 @@ export const listOrderItems = /* GraphQL */ `
     listOrderItems(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        title
-        description
-        image
-        price
+        orderID
+        menuItemID
         quantity
-        totalPrice
-        order {
-          id
-          totalItems
-          subtotal
-          tax
-          total
-          createdAt
-          updatedAt
-          customerOrdersId
-          owner
-        }
         createdAt
         updatedAt
-        orderItemsId
         owner
       }
       nextToken

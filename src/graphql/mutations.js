@@ -9,13 +9,13 @@ export const createMenu = /* GraphQL */ `
     createMenu(input: $input, condition: $condition) {
       id
       name
-      categories {
+      menuCategories {
         items {
           id
+          menuID
           name
           createdAt
           updatedAt
-          menuCategoriesId
         }
         nextToken
       }
@@ -32,13 +32,13 @@ export const updateMenu = /* GraphQL */ `
     updateMenu(input: $input, condition: $condition) {
       id
       name
-      categories {
+      menuCategories {
         items {
           id
+          menuID
           name
           createdAt
           updatedAt
-          menuCategoriesId
         }
         nextToken
       }
@@ -55,13 +55,13 @@ export const deleteMenu = /* GraphQL */ `
     deleteMenu(input: $input, condition: $condition) {
       id
       name
-      categories {
+      menuCategories {
         items {
           id
+          menuID
           name
           createdAt
           updatedAt
-          menuCategoriesId
         }
         nextToken
       }
@@ -70,210 +70,135 @@ export const deleteMenu = /* GraphQL */ `
     }
   }
 `;
-export const createCategory = /* GraphQL */ `
-  mutation CreateCategory(
-    $input: CreateCategoryInput!
-    $condition: ModelCategoryConditionInput
+export const createMenuCategory = /* GraphQL */ `
+  mutation CreateMenuCategory(
+    $input: CreateMenuCategoryInput!
+    $condition: ModelMenuCategoryConditionInput
   ) {
-    createCategory(input: $input, condition: $condition) {
+    createMenuCategory(input: $input, condition: $condition) {
       id
+      menuID
       name
-      menu {
-        id
-        name
-        categories {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      items {
+      menuItems {
         items {
           id
+          menuCategoryID
           title
-          description
           image
+          description
           price
           createdAt
           updatedAt
-          categoryItemsId
         }
         nextToken
       }
       createdAt
       updatedAt
-      menuCategoriesId
     }
   }
 `;
-export const updateCategory = /* GraphQL */ `
-  mutation UpdateCategory(
-    $input: UpdateCategoryInput!
-    $condition: ModelCategoryConditionInput
+export const updateMenuCategory = /* GraphQL */ `
+  mutation UpdateMenuCategory(
+    $input: UpdateMenuCategoryInput!
+    $condition: ModelMenuCategoryConditionInput
   ) {
-    updateCategory(input: $input, condition: $condition) {
+    updateMenuCategory(input: $input, condition: $condition) {
       id
+      menuID
       name
-      menu {
-        id
-        name
-        categories {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      items {
+      menuItems {
         items {
           id
+          menuCategoryID
           title
-          description
           image
+          description
           price
           createdAt
           updatedAt
-          categoryItemsId
         }
         nextToken
       }
       createdAt
       updatedAt
-      menuCategoriesId
     }
   }
 `;
-export const deleteCategory = /* GraphQL */ `
-  mutation DeleteCategory(
-    $input: DeleteCategoryInput!
-    $condition: ModelCategoryConditionInput
+export const deleteMenuCategory = /* GraphQL */ `
+  mutation DeleteMenuCategory(
+    $input: DeleteMenuCategoryInput!
+    $condition: ModelMenuCategoryConditionInput
   ) {
-    deleteCategory(input: $input, condition: $condition) {
+    deleteMenuCategory(input: $input, condition: $condition) {
       id
+      menuID
       name
-      menu {
-        id
-        name
-        categories {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      items {
+      menuItems {
         items {
           id
+          menuCategoryID
           title
-          description
           image
+          description
           price
           createdAt
           updatedAt
-          categoryItemsId
         }
         nextToken
       }
       createdAt
       updatedAt
-      menuCategoriesId
     }
   }
 `;
-export const createItem = /* GraphQL */ `
-  mutation CreateItem(
-    $input: CreateItemInput!
-    $condition: ModelItemConditionInput
+export const createMenuItem = /* GraphQL */ `
+  mutation CreateMenuItem(
+    $input: CreateMenuItemInput!
+    $condition: ModelMenuItemConditionInput
   ) {
-    createItem(input: $input, condition: $condition) {
+    createMenuItem(input: $input, condition: $condition) {
       id
+      menuCategoryID
       title
-      description
       image
+      description
       price
-      category {
-        id
-        name
-        menu {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        items {
-          nextToken
-        }
-        createdAt
-        updatedAt
-        menuCategoriesId
-      }
       createdAt
       updatedAt
-      categoryItemsId
     }
   }
 `;
-export const updateItem = /* GraphQL */ `
-  mutation UpdateItem(
-    $input: UpdateItemInput!
-    $condition: ModelItemConditionInput
+export const updateMenuItem = /* GraphQL */ `
+  mutation UpdateMenuItem(
+    $input: UpdateMenuItemInput!
+    $condition: ModelMenuItemConditionInput
   ) {
-    updateItem(input: $input, condition: $condition) {
+    updateMenuItem(input: $input, condition: $condition) {
       id
+      menuCategoryID
       title
-      description
       image
+      description
       price
-      category {
-        id
-        name
-        menu {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        items {
-          nextToken
-        }
-        createdAt
-        updatedAt
-        menuCategoriesId
-      }
       createdAt
       updatedAt
-      categoryItemsId
     }
   }
 `;
-export const deleteItem = /* GraphQL */ `
-  mutation DeleteItem(
-    $input: DeleteItemInput!
-    $condition: ModelItemConditionInput
+export const deleteMenuItem = /* GraphQL */ `
+  mutation DeleteMenuItem(
+    $input: DeleteMenuItemInput!
+    $condition: ModelMenuItemConditionInput
   ) {
-    deleteItem(input: $input, condition: $condition) {
+    deleteMenuItem(input: $input, condition: $condition) {
       id
+      menuCategoryID
       title
-      description
       image
+      description
       price
-      category {
-        id
-        name
-        menu {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        items {
-          nextToken
-        }
-        createdAt
-        updatedAt
-        menuCategoriesId
-      }
       createdAt
       updatedAt
-      categoryItemsId
     }
   }
 `;
@@ -290,13 +215,14 @@ export const createCustomer = /* GraphQL */ `
       orders {
         items {
           id
+          customerID
+          email
           totalItems
           subtotal
           tax
           total
           createdAt
           updatedAt
-          customerOrdersId
           owner
         }
         nextToken
@@ -320,13 +246,14 @@ export const updateCustomer = /* GraphQL */ `
       orders {
         items {
           id
+          customerID
+          email
           totalItems
           subtotal
           tax
           total
           createdAt
           updatedAt
-          customerOrdersId
           owner
         }
         nextToken
@@ -350,13 +277,14 @@ export const deleteCustomer = /* GraphQL */ `
       orders {
         items {
           id
+          customerID
+          email
           totalItems
           subtotal
           tax
           total
           createdAt
           updatedAt
-          customerOrdersId
           owner
         }
         nextToken
@@ -374,41 +302,26 @@ export const createOrder = /* GraphQL */ `
   ) {
     createOrder(input: $input, condition: $condition) {
       id
-      items {
-        items {
-          id
-          title
-          description
-          image
-          price
-          quantity
-          totalPrice
-          createdAt
-          updatedAt
-          orderItemsId
-          owner
-        }
-        nextToken
-      }
+      customerID
+      email
       totalItems
       subtotal
       tax
       total
-      customer {
-        id
-        firstName
-        lastName
-        email
-        orders {
-          nextToken
+      items {
+        items {
+          id
+          orderID
+          menuItemID
+          quantity
+          createdAt
+          updatedAt
+          owner
         }
-        createdAt
-        updatedAt
-        owner
+        nextToken
       }
       createdAt
       updatedAt
-      customerOrdersId
       owner
     }
   }
@@ -420,41 +333,26 @@ export const updateOrder = /* GraphQL */ `
   ) {
     updateOrder(input: $input, condition: $condition) {
       id
-      items {
-        items {
-          id
-          title
-          description
-          image
-          price
-          quantity
-          totalPrice
-          createdAt
-          updatedAt
-          orderItemsId
-          owner
-        }
-        nextToken
-      }
+      customerID
+      email
       totalItems
       subtotal
       tax
       total
-      customer {
-        id
-        firstName
-        lastName
-        email
-        orders {
-          nextToken
+      items {
+        items {
+          id
+          orderID
+          menuItemID
+          quantity
+          createdAt
+          updatedAt
+          owner
         }
-        createdAt
-        updatedAt
-        owner
+        nextToken
       }
       createdAt
       updatedAt
-      customerOrdersId
       owner
     }
   }
@@ -466,41 +364,26 @@ export const deleteOrder = /* GraphQL */ `
   ) {
     deleteOrder(input: $input, condition: $condition) {
       id
-      items {
-        items {
-          id
-          title
-          description
-          image
-          price
-          quantity
-          totalPrice
-          createdAt
-          updatedAt
-          orderItemsId
-          owner
-        }
-        nextToken
-      }
+      customerID
+      email
       totalItems
       subtotal
       tax
       total
-      customer {
-        id
-        firstName
-        lastName
-        email
-        orders {
-          nextToken
+      items {
+        items {
+          id
+          orderID
+          menuItemID
+          quantity
+          createdAt
+          updatedAt
+          owner
         }
-        createdAt
-        updatedAt
-        owner
+        nextToken
       }
       createdAt
       updatedAt
-      customerOrdersId
       owner
     }
   }
@@ -512,38 +395,11 @@ export const createOrderItem = /* GraphQL */ `
   ) {
     createOrderItem(input: $input, condition: $condition) {
       id
-      title
-      description
-      image
-      price
+      orderID
+      menuItemID
       quantity
-      totalPrice
-      order {
-        id
-        items {
-          nextToken
-        }
-        totalItems
-        subtotal
-        tax
-        total
-        customer {
-          id
-          firstName
-          lastName
-          email
-          createdAt
-          updatedAt
-          owner
-        }
-        createdAt
-        updatedAt
-        customerOrdersId
-        owner
-      }
       createdAt
       updatedAt
-      orderItemsId
       owner
     }
   }
@@ -555,38 +411,11 @@ export const updateOrderItem = /* GraphQL */ `
   ) {
     updateOrderItem(input: $input, condition: $condition) {
       id
-      title
-      description
-      image
-      price
+      orderID
+      menuItemID
       quantity
-      totalPrice
-      order {
-        id
-        items {
-          nextToken
-        }
-        totalItems
-        subtotal
-        tax
-        total
-        customer {
-          id
-          firstName
-          lastName
-          email
-          createdAt
-          updatedAt
-          owner
-        }
-        createdAt
-        updatedAt
-        customerOrdersId
-        owner
-      }
       createdAt
       updatedAt
-      orderItemsId
       owner
     }
   }
@@ -598,38 +427,11 @@ export const deleteOrderItem = /* GraphQL */ `
   ) {
     deleteOrderItem(input: $input, condition: $condition) {
       id
-      title
-      description
-      image
-      price
+      orderID
+      menuItemID
       quantity
-      totalPrice
-      order {
-        id
-        items {
-          nextToken
-        }
-        totalItems
-        subtotal
-        tax
-        total
-        customer {
-          id
-          firstName
-          lastName
-          email
-          createdAt
-          updatedAt
-          owner
-        }
-        createdAt
-        updatedAt
-        customerOrdersId
-        owner
-      }
       createdAt
       updatedAt
-      orderItemsId
       owner
     }
   }

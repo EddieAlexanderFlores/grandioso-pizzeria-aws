@@ -12,7 +12,7 @@ const MenuContent = (props: Props) => {
   return (
     <ul className={styles.menu}>
       {items.map((item) => (
-        <MenuItem key={item.id} item={item} />
+        <MenuItem key={item.menuItemId} item={item} />
       ))}
     </ul>
   );

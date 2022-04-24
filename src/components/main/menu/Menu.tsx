@@ -5,7 +5,7 @@ import {MenuItemType} from "../../../mylib/MyTypes";
 import MenuContent from "./MenuContent";
 import MenuTabs from "./MenuTabs";
 import {API, Storage} from "aws-amplify";
-import {getCategory} from "../../../graphql/queries";
+import {getMenuCategory} from "../../../graphql/queries";
 import {GraphQLResult} from "@aws-amplify/api-graphql";
 import LoaderIcon from "../../ui/icons/LoaderIcon";
 import styles from "./Menu.module.css";
@@ -20,10 +20,11 @@ const Menu = () => {
     const fetchMenuItems = async () => {
       try {
         const apiData: GraphQLResult<any> = await API.graphql({
-          query: getCategory,
+          query: getMenuCategory,
           variables: {id: selection},
         });
-        const items: Array<MenuItemType> = apiData.data.getCategory.items.items;
+        const items: Array<MenuItemType> =
+          apiData.data.getMenuCategory.menuItems.items;
 
         const categoryItems: Array<MenuItemType> = [];
 
@@ -31,8 +32,9 @@ const Menu = () => {
           const imageURL: string = await Storage.get(item.image, {
             level: "public",
           });
+          const {id}: any = item;
           categoryItems.push({
-            id: item.id,
+            menuItemId: id,
             title: item.title,
             description: item.description,
             image: item.image,

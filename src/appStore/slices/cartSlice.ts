@@ -29,8 +29,9 @@ const cartSlice: Slice<CartStateType> = createSlice({
         image: itemToAdd.image,
         imageURL: itemToAdd.imageURL,
         price: itemToAdd.price,
+        menuItemId: itemToAdd.menuItemId,
         quantity,
-        id: 0,
+        cartItemId: 0,
         totalPrice: 0,
       };
 
@@ -41,20 +42,22 @@ const cartSlice: Slice<CartStateType> = createSlice({
       state.total = state.subtotal + state.tax;
       state.items.push(newItem);
       state.items.forEach((item, i) => {
-        item.id = 1001 + i;
+        item.cartItemId = 1001 + i;
       });
     },
     removeCartItem: (state, action: PayloadAction<{id: number}>) => {
       const idToMatch = action.payload.id;
       const indexOfItemToRemove = state.items.findIndex(
-        (item) => item.id === idToMatch
+        (item) => item.cartItemId === idToMatch
       );
       const itemToRemove = state.items[indexOfItemToRemove];
       state.totalItems -= itemToRemove.quantity;
       state.subtotal -= itemToRemove.totalPrice;
       state.tax = state.subtotal * taxRate;
       state.total = state.subtotal + state.tax;
-      const filteredItems = state.items.filter((item) => item.id !== idToMatch);
+      const filteredItems = state.items.filter(
+        (item) => item.cartItemId !== idToMatch
+      );
       state.items = filteredItems;
     },
     updateCartItemQuantity: (
@@ -64,7 +67,7 @@ const cartSlice: Slice<CartStateType> = createSlice({
       const idToMatch = action.payload.id;
       const newQuantity = action.payload.quantity;
       const indexOfItemToUpdate = state.items.findIndex(
-        (item) => item.id === idToMatch
+        (item) => item.cartItemId === idToMatch
       );
       const itemUpdates = state.items[indexOfItemToUpdate];
       itemUpdates.quantity = newQuantity;
@@ -88,7 +91,7 @@ const cartSlice: Slice<CartStateType> = createSlice({
       const idToMatch = action.payload.id;
       const newImageURL = action.payload.imageURL;
       const indexOfItemToUpdate = state.items.findIndex(
-        (item) => item.id === idToMatch
+        (item) => item.cartItemId === idToMatch
       );
       state.items[indexOfItemToUpdate].imageURL = newImageURL;
     },

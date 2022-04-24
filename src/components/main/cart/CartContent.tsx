@@ -1,5 +1,11 @@
 import {Storage} from "aws-amplify";
-import {Fragment, MouseEventHandler, useEffect, useState} from "react";
+import {
+  Fragment,
+  MouseEventHandler,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import {useAppDispatch, useAppSelector} from "../../../appStore/hooks";
 import {setCartItemImageURL} from "../../../appStore/slices/cartSlice";
 import {RootState} from "../../../appStore/store";
@@ -23,29 +29,23 @@ const CartContent = (props: Props) => {
   const tax = (cart.tax / 100).toFixed(2);
   const total = (cart.total / 100).toFixed(2);
 
-  console.log("# of Cart Orders", cart.items.length);
-  console.log(
-    "Orders:",
-    cart.items.map((item) => item.id)
-  );
+  const setImageURL = async () => {
+    try {
+      setIsLoading(true);
+      for (const item of cart.items) {
+        const imageURL: string = await Storage.get(item.image, {
+          level: "public",
+        });
+        dispatch(setCartItemImageURL({id: item.cartItemId, imageURL}));
+      }
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    setIsLoading(true);
-    const setImageURL = async () => {
-      try {
-        for (const item of cart.items) {
-          const imageURL: string = await Storage.get(item.image, {
-            level: "public",
-          });
-          console.log("Cart Item:", item.id);
-          dispatch(setCartItemImageURL({id: item.id, imageURL}));
-        }
-        setIsLoading(false);
-      } catch (error) {
-        console.log(error);
-        setIsLoading(false);
-      }
-    };
     setImageURL();
   }, []);
 
@@ -66,7 +66,7 @@ const CartContent = (props: Props) => {
       ) : (
         <ul className={styles["cart-list"]}>
           {cart.items.map((item) => (
-            <CartItem key={item.id} item={item} />
+            <CartItem key={item.cartItemId} item={item} />
           ))}
         </ul>
       )}

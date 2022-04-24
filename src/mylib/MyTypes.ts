@@ -7,14 +7,15 @@ export type ItemType = {
 };
 
 export type MenuItemType = ItemType & {
-  id: string;
+  menuItemId: string;
 };
 
-export type CartItemType = ItemType & {
-  id: number;
-  quantity: number;
-  totalPrice: number;
-};
+export type CartItemType = ItemType &
+  MenuItemType & {
+    cartItemId: number;
+    quantity: number;
+    totalPrice: number;
+  };
 
 export type CartStateType = {
   orderID: string;

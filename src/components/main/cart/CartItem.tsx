@@ -18,11 +18,11 @@ const CartItem = (props: Props) => {
   const totalPrice = (props.item.totalPrice / 100).toFixed(2);
 
   const removeItemHandler = () => {
-    dispatch(removeCartItem({id: props.item.id}));
+    dispatch(removeCartItem({id: props.item.cartItemId}));
   };
 
   const updateItemQuantity = (quantity: number) => {
-    dispatch(updateCartItemQuantity({id: props.item.id, quantity}));
+    dispatch(updateCartItemQuantity({id: props.item.cartItemId, quantity}));
   };
 
   return (

@@ -6,13 +6,13 @@ export const onCreateMenu = /* GraphQL */ `
     onCreateMenu {
       id
       name
-      categories {
+      menuCategories {
         items {
           id
+          menuID
           name
           createdAt
           updatedAt
-          menuCategoriesId
         }
         nextToken
       }
@@ -26,13 +26,13 @@ export const onUpdateMenu = /* GraphQL */ `
     onUpdateMenu {
       id
       name
-      categories {
+      menuCategories {
         items {
           id
+          menuID
           name
           createdAt
           updatedAt
-          menuCategoriesId
         }
         nextToken
       }
@@ -46,13 +46,13 @@ export const onDeleteMenu = /* GraphQL */ `
     onDeleteMenu {
       id
       name
-      categories {
+      menuCategories {
         items {
           id
+          menuID
           name
           createdAt
           updatedAt
-          menuCategoriesId
         }
         nextToken
       }
@@ -61,192 +61,117 @@ export const onDeleteMenu = /* GraphQL */ `
     }
   }
 `;
-export const onCreateCategory = /* GraphQL */ `
-  subscription OnCreateCategory {
-    onCreateCategory {
+export const onCreateMenuCategory = /* GraphQL */ `
+  subscription OnCreateMenuCategory {
+    onCreateMenuCategory {
       id
+      menuID
       name
-      menu {
-        id
-        name
-        categories {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      items {
+      menuItems {
         items {
           id
+          menuCategoryID
           title
-          description
           image
+          description
           price
           createdAt
           updatedAt
-          categoryItemsId
         }
         nextToken
       }
       createdAt
       updatedAt
-      menuCategoriesId
     }
   }
 `;
-export const onUpdateCategory = /* GraphQL */ `
-  subscription OnUpdateCategory {
-    onUpdateCategory {
+export const onUpdateMenuCategory = /* GraphQL */ `
+  subscription OnUpdateMenuCategory {
+    onUpdateMenuCategory {
       id
+      menuID
       name
-      menu {
-        id
-        name
-        categories {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      items {
+      menuItems {
         items {
           id
+          menuCategoryID
           title
-          description
           image
+          description
           price
           createdAt
           updatedAt
-          categoryItemsId
         }
         nextToken
       }
       createdAt
       updatedAt
-      menuCategoriesId
     }
   }
 `;
-export const onDeleteCategory = /* GraphQL */ `
-  subscription OnDeleteCategory {
-    onDeleteCategory {
+export const onDeleteMenuCategory = /* GraphQL */ `
+  subscription OnDeleteMenuCategory {
+    onDeleteMenuCategory {
       id
+      menuID
       name
-      menu {
-        id
-        name
-        categories {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      items {
+      menuItems {
         items {
           id
+          menuCategoryID
           title
-          description
           image
+          description
           price
           createdAt
           updatedAt
-          categoryItemsId
         }
         nextToken
       }
       createdAt
       updatedAt
-      menuCategoriesId
     }
   }
 `;
-export const onCreateItem = /* GraphQL */ `
-  subscription OnCreateItem {
-    onCreateItem {
+export const onCreateMenuItem = /* GraphQL */ `
+  subscription OnCreateMenuItem {
+    onCreateMenuItem {
       id
+      menuCategoryID
       title
-      description
       image
+      description
       price
-      category {
-        id
-        name
-        menu {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        items {
-          nextToken
-        }
-        createdAt
-        updatedAt
-        menuCategoriesId
-      }
       createdAt
       updatedAt
-      categoryItemsId
     }
   }
 `;
-export const onUpdateItem = /* GraphQL */ `
-  subscription OnUpdateItem {
-    onUpdateItem {
+export const onUpdateMenuItem = /* GraphQL */ `
+  subscription OnUpdateMenuItem {
+    onUpdateMenuItem {
       id
+      menuCategoryID
       title
-      description
       image
+      description
       price
-      category {
-        id
-        name
-        menu {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        items {
-          nextToken
-        }
-        createdAt
-        updatedAt
-        menuCategoriesId
-      }
       createdAt
       updatedAt
-      categoryItemsId
     }
   }
 `;
-export const onDeleteItem = /* GraphQL */ `
-  subscription OnDeleteItem {
-    onDeleteItem {
+export const onDeleteMenuItem = /* GraphQL */ `
+  subscription OnDeleteMenuItem {
+    onDeleteMenuItem {
       id
+      menuCategoryID
       title
-      description
       image
+      description
       price
-      category {
-        id
-        name
-        menu {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        items {
-          nextToken
-        }
-        createdAt
-        updatedAt
-        menuCategoriesId
-      }
       createdAt
       updatedAt
-      categoryItemsId
     }
   }
 `;
@@ -260,13 +185,14 @@ export const onCreateCustomer = /* GraphQL */ `
       orders {
         items {
           id
+          customerID
+          email
           totalItems
           subtotal
           tax
           total
           createdAt
           updatedAt
-          customerOrdersId
           owner
         }
         nextToken
@@ -287,13 +213,14 @@ export const onUpdateCustomer = /* GraphQL */ `
       orders {
         items {
           id
+          customerID
+          email
           totalItems
           subtotal
           tax
           total
           createdAt
           updatedAt
-          customerOrdersId
           owner
         }
         nextToken
@@ -314,13 +241,14 @@ export const onDeleteCustomer = /* GraphQL */ `
       orders {
         items {
           id
+          customerID
+          email
           totalItems
           subtotal
           tax
           total
           createdAt
           updatedAt
-          customerOrdersId
           owner
         }
         nextToken
@@ -335,41 +263,26 @@ export const onCreateOrder = /* GraphQL */ `
   subscription OnCreateOrder($owner: String) {
     onCreateOrder(owner: $owner) {
       id
-      items {
-        items {
-          id
-          title
-          description
-          image
-          price
-          quantity
-          totalPrice
-          createdAt
-          updatedAt
-          orderItemsId
-          owner
-        }
-        nextToken
-      }
+      customerID
+      email
       totalItems
       subtotal
       tax
       total
-      customer {
-        id
-        firstName
-        lastName
-        email
-        orders {
-          nextToken
+      items {
+        items {
+          id
+          orderID
+          menuItemID
+          quantity
+          createdAt
+          updatedAt
+          owner
         }
-        createdAt
-        updatedAt
-        owner
+        nextToken
       }
       createdAt
       updatedAt
-      customerOrdersId
       owner
     }
   }
@@ -378,41 +291,26 @@ export const onUpdateOrder = /* GraphQL */ `
   subscription OnUpdateOrder($owner: String) {
     onUpdateOrder(owner: $owner) {
       id
-      items {
-        items {
-          id
-          title
-          description
-          image
-          price
-          quantity
-          totalPrice
-          createdAt
-          updatedAt
-          orderItemsId
-          owner
-        }
-        nextToken
-      }
+      customerID
+      email
       totalItems
       subtotal
       tax
       total
-      customer {
-        id
-        firstName
-        lastName
-        email
-        orders {
-          nextToken
+      items {
+        items {
+          id
+          orderID
+          menuItemID
+          quantity
+          createdAt
+          updatedAt
+          owner
         }
-        createdAt
-        updatedAt
-        owner
+        nextToken
       }
       createdAt
       updatedAt
-      customerOrdersId
       owner
     }
   }
@@ -421,41 +319,26 @@ export const onDeleteOrder = /* GraphQL */ `
   subscription OnDeleteOrder($owner: String) {
     onDeleteOrder(owner: $owner) {
       id
-      items {
-        items {
-          id
-          title
-          description
-          image
-          price
-          quantity
-          totalPrice
-          createdAt
-          updatedAt
-          orderItemsId
-          owner
-        }
-        nextToken
-      }
+      customerID
+      email
       totalItems
       subtotal
       tax
       total
-      customer {
-        id
-        firstName
-        lastName
-        email
-        orders {
-          nextToken
+      items {
+        items {
+          id
+          orderID
+          menuItemID
+          quantity
+          createdAt
+          updatedAt
+          owner
         }
-        createdAt
-        updatedAt
-        owner
+        nextToken
       }
       createdAt
       updatedAt
-      customerOrdersId
       owner
     }
   }
@@ -464,38 +347,11 @@ export const onCreateOrderItem = /* GraphQL */ `
   subscription OnCreateOrderItem($owner: String) {
     onCreateOrderItem(owner: $owner) {
       id
-      title
-      description
-      image
-      price
+      orderID
+      menuItemID
       quantity
-      totalPrice
-      order {
-        id
-        items {
-          nextToken
-        }
-        totalItems
-        subtotal
-        tax
-        total
-        customer {
-          id
-          firstName
-          lastName
-          email
-          createdAt
-          updatedAt
-          owner
-        }
-        createdAt
-        updatedAt
-        customerOrdersId
-        owner
-      }
       createdAt
       updatedAt
-      orderItemsId
       owner
     }
   }
@@ -504,38 +360,11 @@ export const onUpdateOrderItem = /* GraphQL */ `
   subscription OnUpdateOrderItem($owner: String) {
     onUpdateOrderItem(owner: $owner) {
       id
-      title
-      description
-      image
-      price
+      orderID
+      menuItemID
       quantity
-      totalPrice
-      order {
-        id
-        items {
-          nextToken
-        }
-        totalItems
-        subtotal
-        tax
-        total
-        customer {
-          id
-          firstName
-          lastName
-          email
-          createdAt
-          updatedAt
-          owner
-        }
-        createdAt
-        updatedAt
-        customerOrdersId
-        owner
-      }
       createdAt
       updatedAt
-      orderItemsId
       owner
     }
   }
@@ -544,38 +373,11 @@ export const onDeleteOrderItem = /* GraphQL */ `
   subscription OnDeleteOrderItem($owner: String) {
     onDeleteOrderItem(owner: $owner) {
       id
-      title
-      description
-      image
-      price
+      orderID
+      menuItemID
       quantity
-      totalPrice
-      order {
-        id
-        items {
-          nextToken
-        }
-        totalItems
-        subtotal
-        tax
-        total
-        customer {
-          id
-          firstName
-          lastName
-          email
-          createdAt
-          updatedAt
-          owner
-        }
-        createdAt
-        updatedAt
-        customerOrdersId
-        owner
-      }
       createdAt
       updatedAt
-      orderItemsId
       owner
     }
   }

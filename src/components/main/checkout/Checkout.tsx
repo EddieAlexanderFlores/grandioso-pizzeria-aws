@@ -5,6 +5,7 @@ import {useAppSelector} from "../../../appStore/hooks";
 import {RootState} from "../../../appStore/store";
 import {createOrder, createOrderItem} from "../../../graphql/mutations";
 import styles from "./Checkout.module.css";
+import {uuidv7} from "uuidv7";
 
 type Props = {
   onBackButtonClick: MouseEventHandler<HTMLButtonElement>;
@@ -34,29 +35,26 @@ const Checkout = (props: Props) => {
         variables: {
           input: {
             id: cart.orderID,
+            customerID: user.email,
+            email: user.email,
             totalItems: cart.totalItems,
             subtotal: cart.subtotal,
             tax: cart.tax,
             total: cart.total,
-            customerOrdersId: user.email,
           },
         },
         authMode,
       });
 
-      for (const item of cart.items) {
+      for (const cartItem of cart.items) {
         const createOrderItemResult: GraphQLResult<any> = await API.graphql({
           query: createOrderItem,
           variables: {
             input: {
-              id: item.id,
-              title: item.title,
-              description: item.description,
-              image: item.image,
-              price: item.price,
-              quantity: item.quantity,
-              totalPrice: item.totalPrice,
-              orderItemsId: cart.orderID,
+              id: uuidv7(),
+              orderID: cart.orderID,
+              menuItemID: cartItem.menuItemId,
+              quantity: cartItem.quantity,
             },
           },
           authMode,
