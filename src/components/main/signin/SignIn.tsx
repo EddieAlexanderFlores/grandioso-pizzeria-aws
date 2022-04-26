@@ -25,7 +25,9 @@ const SignIn = () => {
     }
   };
 
-  const signUpUserHandler = async (user: Omit<UserType, "address">) => {
+  const signUpUserHandler = async (
+    user: Omit<UserType, "address" | "telephone">
+  ) => {
     setIsButtonDisabled(true); // Set to true.
     window.sessionStorage.setItem("email", user.email);
     window.sessionStorage.setItem("firstName", user.firstName);
@@ -39,7 +41,6 @@ const SignIn = () => {
           given_name: user.firstName,
           family_name: user.lastName,
           email: user.email,
-          phone_number: "+1" + user.telephone,
           address: "",
         },
       });

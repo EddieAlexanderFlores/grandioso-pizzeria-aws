@@ -5,23 +5,23 @@ import styles from "./SignInForm.module.css";
 
 type Props = {
   isButtonDisabled: boolean;
-  onSubmitSignUpForm: (user: Omit<UserType, "address">) => void;
+  onSubmitSignUpForm: (user: Omit<UserType, "address" | "telephone">) => void;
 };
 
 const SignUpForm = (props: Props) => {
   const firstNameRef = useRef<HTMLInputElement>(null);
   const lastNameRef = useRef<HTMLInputElement>(null);
-  const telephoneRef = useRef<HTMLInputElement>(null);
+  // const telephoneRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
   const submitFormHandler = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const user: Omit<UserType, "address"> = {
+    const user: Omit<UserType, "address" | "telephone"> = {
       firstName: firstNameRef.current!.value,
       lastName: lastNameRef.current!.value,
       email: emailRef.current!.value,
-      telephone: telephoneRef.current!.value,
+      // telephone: telephoneRef.current!.value,
       password: passwordRef.current!.value,
     };
     props.onSubmitSignUpForm(user);
@@ -72,19 +72,6 @@ const SignUpForm = (props: Props) => {
         required={true}
         maxLength={50}
         ref={emailRef}
-      />
-      <label className={styles.label} htmlFor="telephone">
-        Phone Number *
-      </label>
-      <input
-        className={styles.input}
-        id="telephone"
-        type="tel"
-        name="telephone"
-        autoComplete="tel-national"
-        required={true}
-        maxLength={10}
-        ref={telephoneRef}
       />
       <label className={styles.label} htmlFor="password">
         Create Password *

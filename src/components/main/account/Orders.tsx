@@ -50,7 +50,7 @@ const Orders = (props: Props) => {
       ) : orders.length === 0 ? (
         <p className={styles.message}>You have no order history.</p>
       ) : (
-        <ul>
+        <ul className={styles.ul}>
           {orders.map((order) => (
             <OrdersList key={order.id} order={order} />
           ))}
