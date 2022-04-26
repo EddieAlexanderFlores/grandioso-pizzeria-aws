@@ -29,9 +29,9 @@ const cartSlice: Slice<CartStateType> = createSlice({
         image: itemToAdd.image,
         imageURL: itemToAdd.imageURL,
         price: itemToAdd.price,
-        menuItemId: itemToAdd.menuItemId,
+        menuItemID: itemToAdd.menuItemID,
         quantity,
-        cartItemId: 0,
+        cartItemID: 0,
         totalPrice: 0,
       };
 
@@ -42,21 +42,21 @@ const cartSlice: Slice<CartStateType> = createSlice({
       state.total = state.subtotal + state.tax;
       state.items.push(newItem);
       state.items.forEach((item, i) => {
-        item.cartItemId = 1001 + i;
+        item.cartItemID = 1001 + i;
       });
     },
     removeCartItem: (state, action: PayloadAction<{id: number}>) => {
       const idToMatch = action.payload.id;
       const indexOfItemToRemove = state.items.findIndex(
-        (item) => item.cartItemId === idToMatch
+        (item) => item.cartItemID === idToMatch
       );
       const itemToRemove = state.items[indexOfItemToRemove];
       state.totalItems -= itemToRemove.quantity;
       state.subtotal -= itemToRemove.totalPrice;
-      state.tax = state.subtotal * taxRate;
+      state.tax = Math.round(state.subtotal * taxRate);
       state.total = state.subtotal + state.tax;
       const filteredItems = state.items.filter(
-        (item) => item.cartItemId !== idToMatch
+        (item) => item.cartItemID !== idToMatch
       );
       state.items = filteredItems;
     },
@@ -67,7 +67,7 @@ const cartSlice: Slice<CartStateType> = createSlice({
       const idToMatch = action.payload.id;
       const newQuantity = action.payload.quantity;
       const indexOfItemToUpdate = state.items.findIndex(
-        (item) => item.cartItemId === idToMatch
+        (item) => item.cartItemID === idToMatch
       );
       const itemUpdates = state.items[indexOfItemToUpdate];
       itemUpdates.quantity = newQuantity;
@@ -81,7 +81,7 @@ const cartSlice: Slice<CartStateType> = createSlice({
         (prevTotalPrice, currItem) => prevTotalPrice + currItem.totalPrice,
         0
       );
-      state.tax = state.subtotal * taxRate;
+      state.tax = Math.round(state.subtotal * taxRate);
       state.total = state.subtotal + state.tax;
     },
     setCartItemImageURL: (
@@ -91,17 +91,24 @@ const cartSlice: Slice<CartStateType> = createSlice({
       const idToMatch = action.payload.id;
       const newImageURL = action.payload.imageURL;
       const indexOfItemToUpdate = state.items.findIndex(
-        (item) => item.cartItemId === idToMatch
+        (item) => item.cartItemID === idToMatch
       );
       state.items[indexOfItemToUpdate].imageURL = newImageURL;
     },
     setCartOrderID: (state, action: PayloadAction<{orderID: string}>) => {
       state.orderID = action.payload.orderID;
     },
+    emptyCart: (state) => {
+      state.items = initialCartState.items;
+      state.orderID = initialCartState.orderID;
+      state.subtotal = initialCartState.subtotal;
+      state.tax = initialCartState.tax;
+      state.total = initialCartState.total;
+      state.totalItems = initialCartState.totalItems;
+    },
   },
 });
 
-//export const selectTotalItems = (state: RootState) => state.cart.totalItems;
 export const {
   addItemToCart,
   removeCartItem,

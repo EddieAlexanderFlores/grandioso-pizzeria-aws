@@ -1,3 +1,4 @@
+/* tslint:disable */
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
@@ -11,6 +12,19 @@ export const getMenu = /* GraphQL */ `
           id
           menuID
           name
+          menuItems {
+            items {
+              id
+              menuCategoryID
+              title
+              image
+              description
+              price
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
           createdAt
           updatedAt
         }
@@ -32,6 +46,16 @@ export const listMenus = /* GraphQL */ `
         id
         name
         menuCategories {
+          items {
+            id
+            menuID
+            name
+            menuItems {
+              nextToken
+            }
+            createdAt
+            updatedAt
+          }
           nextToken
         }
         createdAt
@@ -77,6 +101,16 @@ export const listMenuCategories = /* GraphQL */ `
         menuID
         name
         menuItems {
+          items {
+            id
+            menuCategoryID
+            title
+            image
+            description
+            price
+            createdAt
+            updatedAt
+          }
           nextToken
         }
         createdAt
@@ -122,13 +156,13 @@ export const listMenuItems = /* GraphQL */ `
   }
 `;
 export const getCustomer = /* GraphQL */ `
-  query GetCustomer($id: ID!) {
+  query GetCustomer($id: ID!, $sortDirection: ModelSortDirection, $limit: Int) {
     getCustomer(id: $id) {
       id
       firstName
       lastName
       email
-      orders {
+      orders(sortDirection: $sortDirection, limit: $limit) {
         items {
           id
           customerID
@@ -137,6 +171,22 @@ export const getCustomer = /* GraphQL */ `
           subtotal
           tax
           total
+          orderItems {
+            items {
+              id
+              orderID
+              menuItemID
+              title
+              image
+              description
+              price
+              quantity
+              createdAt
+              updatedAt
+              owner
+            }
+            nextToken
+          }
           createdAt
           updatedAt
           owner
@@ -162,6 +212,21 @@ export const listCustomers = /* GraphQL */ `
         lastName
         email
         orders {
+          items {
+            id
+            customerID
+            email
+            totalItems
+            subtotal
+            tax
+            total
+            orderItems {
+              nextToken
+            }
+            createdAt
+            updatedAt
+            owner
+          }
           nextToken
         }
         createdAt
@@ -182,11 +247,15 @@ export const getOrder = /* GraphQL */ `
       subtotal
       tax
       total
-      items {
+      orderItems {
         items {
           id
           orderID
           menuItemID
+          title
+          image
+          description
+          price
           quantity
           createdAt
           updatedAt
@@ -215,7 +284,20 @@ export const listOrders = /* GraphQL */ `
         subtotal
         tax
         total
-        items {
+        orderItems {
+          items {
+            id
+            orderID
+            menuItemID
+            title
+            image
+            description
+            price
+            quantity
+            createdAt
+            updatedAt
+            owner
+          }
           nextToken
         }
         createdAt
@@ -232,6 +314,10 @@ export const getOrderItem = /* GraphQL */ `
       id
       orderID
       menuItemID
+      title
+      image
+      description
+      price
       quantity
       createdAt
       updatedAt
@@ -250,6 +336,10 @@ export const listOrderItems = /* GraphQL */ `
         id
         orderID
         menuItemID
+        title
+        image
+        description
+        price
         quantity
         createdAt
         updatedAt

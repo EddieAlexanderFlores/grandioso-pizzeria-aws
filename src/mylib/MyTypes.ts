@@ -7,12 +7,12 @@ export type ItemType = {
 };
 
 export type MenuItemType = ItemType & {
-  menuItemId: string;
+  menuItemID: string;
 };
 
 export type CartItemType = ItemType &
   MenuItemType & {
-    cartItemId: number;
+    cartItemID: number;
     quantity: number;
     totalPrice: number;
   };
@@ -54,13 +54,36 @@ export type ErrorType = {
 };
 
 export type MainSelectionType = "menu" | "signin" | "cart";
-
 export type MainContentType = {
   selection: MainSelectionType;
 };
 
 export type MenuSelectionType = "drinks" | "pizza" | "sides";
-
 export type MenuContentType = {
   selection: MenuSelectionType;
+};
+
+export type AccountSelectionType = "account" | "orders" | "profile";
+export type AccountContentType = {
+  selection: AccountSelectionType;
+};
+
+export type CartSelectionType = "cart" | "checkout";
+export type CartContentType = {
+  selection: CartSelectionType;
+};
+
+export type OrderItem = MenuItemType & {
+  id: string;
+  quantity: number;
+};
+
+export type Order = {
+  createdAt: Date;
+  id: string;
+  totalItems: number;
+  total: number;
+  orderItems: {
+    items: OrderItem[];
+  };
 };

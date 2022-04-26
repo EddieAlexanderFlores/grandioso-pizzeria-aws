@@ -34,7 +34,7 @@ const Menu = () => {
           });
           const {id}: any = item;
           categoryItems.push({
-            menuItemId: id,
+            menuItemID: id,
             title: item.title,
             description: item.description,
             image: item.image,
@@ -55,9 +55,7 @@ const Menu = () => {
   }, [selection]);
 
   return isLoading ? (
-    <div className={styles.loader}>
-      <LoaderIcon />
-    </div>
+    <LoaderIcon />
   ) : (
     <Fragment>
       <MenuTabs />

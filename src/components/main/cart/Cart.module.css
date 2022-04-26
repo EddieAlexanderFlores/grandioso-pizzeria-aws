@@ -1,81 +1,13 @@
 .header {
   position: fixed;
   top: 110px;
+  left: 0px;
   width: 100%;
   background-color: white;
   height: 40px;
-  padding-left: 15px;
   border-bottom: 1px solid lightgray;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.message {
-  color: white;
-  font-size: 1.375rem;
-  padding: 1rem;
-  text-align: center;
-}
-
-.cart-list {
-  list-style-type: none;
-  padding: 15px;
-  color: white;
-}
-
-.cart-summary {
-  background-color: white;
-  padding: 30px;
-  margin: 30px 0px;
-}
-
-.table {
-  background-color: white;
-  table-layout: auto;
-  width: 100%;
-  margin-bottom: 20px;
-  font-size: 1.05rem;
-  border-spacing: 0px 10px;
-}
-
-.subtotal-title,
-.tax-title,
-.total-title {
-  text-align: left;
-}
-
-.subtotal-amount,
-.tax-amount,
-.total-amount {
-  text-align: right;
-}
-
-.total {
-  font-weight: bold;
-  font-size: 1.5rem;
-}
-
-.button {
-  cursor: pointer;
-  width: 130px;
-  height: 30px;
-  border: none;
-  border-radius: 10px;
-  color: white;
-  background-color: #cc0000;
   text-transform: uppercase;
-  width: 100%;
-  height: 40px;
-  font-size: 1.125rem;
-  font-weight: bold;
-}
-
-.button:hover {
-  background-color: #ff0000;
-}
-
-.button:disabled {
-  background-color: lightgray;
-  color: darkgray;
 }

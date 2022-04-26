@@ -1,0 +1,24 @@
+.li {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.table {
+  table-layout: auto;
+  width: 100%;
+}
+
+.item-name {
+  text-align: left;
+  width: 80%;
+}
+
+.qty-name {
+  text-align: right;
+  width: 10%;
+}
+
+.qty-number {
+  text-align: right;
+  width: 10%;
+}

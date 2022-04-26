@@ -1,10 +1,10 @@
 .header {
   position: fixed;
   top: 110px;
+  left: 0px;
   width: 100%;
   background-color: white;
   height: 40px;
-  padding-left: 15px;
   border-bottom: 1px solid lightgray;
   display: flex;
   align-items: center;
@@ -24,6 +24,7 @@
 .back-button {
   position: fixed;
   top: 115px;
+  left: 0px;
   cursor: pointer;
   width: fit-content;
   height: 30px;
@@ -31,7 +32,7 @@
   border-radius: 5px;
   color: white;
   background-color: #cc0000;
-  font-size: 1rsem;
+  font-size: 1rem;
   font-weight: bold;
   padding: 0px 10px;
   margin-left: 5px;

@@ -1,50 +1,47 @@
 import {Fragment, useState} from "react";
-import {useAppDispatch, useAppSelector} from "../../../appStore/hooks";
+import {useAppDispatch} from "../../../appStore/hooks";
 import {setCartOrderID} from "../../../appStore/slices/cartSlice";
-import {RootState} from "../../../appStore/store";
+import {CartSelectionType} from "../../../mylib/MyTypes";
 import Checkout from "../checkout/Checkout";
 import CartContent from "./CartContent";
+import styles from "./Cart.module.css";
+import {uuidv7} from "uuidv7";
 
 const Cart = () => {
-  const [isCheckoutDisplayed, setIsCheckoutDisplayed] =
-    useState<boolean>(false);
-  const user = useAppSelector((state: RootState) => state.user);
+  const [selection, setSelection] = useState<CartSelectionType>("cart");
   const dispatch = useAppDispatch();
 
+  window.scrollTo({top: 0, left: 0, behavior: "auto"});
+
   const backButtonClickHandler = () => {
-    window.scrollTo({top: 0, left: 0, behavior: "auto"});
-    setIsCheckoutDisplayed(false);
+    setSelection("cart");
   };
 
   const checkOutClickHandler = () => {
-    const date = new Date();
-    const options: Intl.DateTimeFormatOptions = {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-    };
-
-    const regex = /\D/g;
-
-    const formattedDate = date
-      .toLocaleString("en-US", options)
-      .replace(regex, "");
-
-    dispatch(setCartOrderID({orderID: formattedDate}));
-    window.scrollTo({top: 0, left: 0, behavior: "auto"});
-    setIsCheckoutDisplayed(true);
+    setSelection("checkout");
+    dispatch(setCartOrderID({orderID: uuidv7()}));
   };
+
+  let content: JSX.Element = (
+    <CartContent onCheckOutClick={checkOutClickHandler} />
+  );
+
+  switch (selection) {
+    case "cart":
+      content = <CartContent onCheckOutClick={checkOutClickHandler} />;
+      break;
+    case "checkout":
+      content = <Checkout onBackButtonClick={backButtonClickHandler} />;
+      break;
+    default:
+      content = <CartContent onCheckOutClick={checkOutClickHandler} />;
+      break;
+  }
 
   return (
     <Fragment>
-      {isCheckoutDisplayed ? (
-        <Checkout onBackButtonClick={backButtonClickHandler} />
-      ) : (
-        <CartContent onCheckOutClick={checkOutClickHandler} />
-      )}
+      <h2 className={styles.header}>{selection}</h2>
+      {content}
     </Fragment>
   );
 };

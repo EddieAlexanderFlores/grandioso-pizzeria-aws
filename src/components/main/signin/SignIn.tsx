@@ -17,7 +17,6 @@ const SignIn = () => {
   const signInUserHandler = async (email: string, password: string) => {
     setIsButtonDisabled(true); // set to true.
     window.sessionStorage.setItem("email", email);
-    console.log("username:", email);
     try {
       const user: CognitoUser = await Auth.signIn(email, password);
     } catch (error) {

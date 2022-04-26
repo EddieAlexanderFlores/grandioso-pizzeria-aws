@@ -1,50 +1,48 @@
-import {useState} from "react";
+import {MouseEvent, useState} from "react";
 import styles from "./UserAccount.module.css";
-import {Auth} from "aws-amplify";
-import LoaderIcon from "../../ui/icons/LoaderIcon";
+import {AccountContentType, AccountSelectionType} from "../../../mylib/MyTypes";
+import AccountSelections from "./AccountSelections";
+import Orders from "./Orders";
+import Profile from "./Profile";
 
 const UserAccount = () => {
-  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
+  const [selection, setSelection] = useState<AccountSelectionType>("account");
 
-  const signOutHandler = async () => {
-    console.log("Sign Out");
-    setIsButtonDisabled(true);
-    try {
-      await Auth.signOut();
-      console.log("Sign-Out Successful");
-    } catch (error) {
-      console.log("Sign Out Error:", error);
-      setIsButtonDisabled(false);
-    }
+  window.scrollTo({top: 0, left: 0, behavior: "auto"});
+
+  const backButtonClickHandler = () => {
+    setSelection("account");
   };
 
-  return isButtonDisabled ? (
+  const accountSelectionHandler = (event: MouseEvent<HTMLButtonElement>) => {
+    const content: AccountContentType = {
+      selection: event.currentTarget.name as AccountSelectionType,
+    };
+    setSelection(content.selection);
+  };
+  let content: JSX.Element = (
+    <AccountSelections onSelect={accountSelectionHandler} />
+  );
+
+  switch (selection) {
+    case "account":
+      content = <AccountSelections onSelect={accountSelectionHandler} />;
+      break;
+    case "orders":
+      content = <Orders onBackButtonClick={backButtonClickHandler} />;
+      break;
+    case "profile":
+      content = <Profile onBackButtonClick={backButtonClickHandler} />;
+      break;
+    default:
+      content = <AccountSelections onSelect={accountSelectionHandler} />;
+      break;
+  }
+
+  return (
     <div className={styles.account}>
-      <div className={styles.loader}>
-        <h3 className={styles.title}>Signing Out . . .</h3>
-        <LoaderIcon />
-      </div>
-    </div>
-  ) : (
-    <div className={styles.account}>
-      <ul className={styles.nav}>
-        <li className={styles.option}>
-          <button className={styles.optionbtn}>Favorites</button>
-        </li>
-        <li className={styles.option}>
-          <button className={styles.optionbtn}>Past Orders</button>
-        </li>
-        <li className={styles.option}>
-          <button className={styles.optionbtn}>Profile</button>
-        </li>
-      </ul>
-      <button
-        className={styles.signoutbtn}
-        disabled={isButtonDisabled}
-        onClick={signOutHandler}
-      >
-        SIGN OUT
-      </button>
+      <h2 className={styles.header}>{selection}</h2>
+      {content}
     </div>
   );
 };

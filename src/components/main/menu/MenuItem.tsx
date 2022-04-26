@@ -14,7 +14,6 @@ const MenuItem = (props: Props) => {
   const price = (props.item.price / 100).toFixed(2);
 
   const addToOrderHandler = (quantity: number) => {
-    console.log(props.item.title + ": " + quantity + " orders");
     const item = props.item;
     dispatch(addItemToCart({item, quantity}));
   };

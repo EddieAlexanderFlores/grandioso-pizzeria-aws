@@ -1,11 +1,12 @@
 import {GraphQLResult, GRAPHQL_AUTH_MODE} from "@aws-amplify/api-graphql";
 import {API} from "aws-amplify";
 import {FormEvent, Fragment, MouseEventHandler, useState} from "react";
-import {useAppSelector} from "../../../appStore/hooks";
+import {useAppDispatch, useAppSelector} from "../../../appStore/hooks";
 import {RootState} from "../../../appStore/store";
 import {createOrder, createOrderItem} from "../../../graphql/mutations";
 import styles from "./Checkout.module.css";
 import {uuidv7} from "uuidv7";
+import {emptyCart} from "../../../appStore/slices/cartSlice";
 
 type Props = {
   onBackButtonClick: MouseEventHandler<HTMLButtonElement>;
@@ -14,6 +15,7 @@ type Props = {
 const Checkout = (props: Props) => {
   const cart = useAppSelector((state: RootState) => state.cart);
   const user = useAppSelector((state: RootState) => state.user);
+  const dispatch = useAppDispatch();
   const [isOrderSucceeded, setisOrderSucceeded] = useState<boolean>(false);
   const [isPlaceOrderBtnDisabled, setIsPlaceOrderBtnDisabled] =
     useState<boolean>(false); // Change to true
@@ -21,11 +23,6 @@ const Checkout = (props: Props) => {
   const authMode = GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS;
 
   const total = (cart.total / 100).toFixed(2);
-
-  console.log(
-    "Cart Items:",
-    cart.items.map((item) => item)
-  );
 
   const addOrderToDatabase = async () => {
     console.log("Adding Order to Database...");
@@ -53,7 +50,11 @@ const Checkout = (props: Props) => {
             input: {
               id: uuidv7(),
               orderID: cart.orderID,
-              menuItemID: cartItem.menuItemId,
+              menuItemID: cartItem.menuItemID,
+              title: cartItem.title,
+              image: cartItem.image,
+              description: cartItem.description,
+              price: cartItem.price,
               quantity: cartItem.quantity,
             },
           },
@@ -78,6 +79,8 @@ const Checkout = (props: Props) => {
         setisOrderSucceeded(true);
       }
       console.log("Processing Payment of: $", total);
+      // Empty cart
+      dispatch(emptyCart(null));
     } catch (error) {
       setIsPlaceOrderBtnDisabled(false);
       setisOrderSucceeded(false);
@@ -88,7 +91,6 @@ const Checkout = (props: Props) => {
 
   return (
     <Fragment>
-      <h2 className={styles.header}>Checkout</h2>
       <button
         className={styles["back-button"]}
         disabled={isProcessing}

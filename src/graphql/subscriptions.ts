@@ -1,3 +1,4 @@
+/* tslint:disable */
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
@@ -11,6 +12,19 @@ export const onCreateMenu = /* GraphQL */ `
           id
           menuID
           name
+          menuItems {
+            items {
+              id
+              menuCategoryID
+              title
+              image
+              description
+              price
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
           createdAt
           updatedAt
         }
@@ -31,6 +45,19 @@ export const onUpdateMenu = /* GraphQL */ `
           id
           menuID
           name
+          menuItems {
+            items {
+              id
+              menuCategoryID
+              title
+              image
+              description
+              price
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
           createdAt
           updatedAt
         }
@@ -51,6 +78,19 @@ export const onDeleteMenu = /* GraphQL */ `
           id
           menuID
           name
+          menuItems {
+            items {
+              id
+              menuCategoryID
+              title
+              image
+              description
+              price
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
           createdAt
           updatedAt
         }
@@ -191,6 +231,22 @@ export const onCreateCustomer = /* GraphQL */ `
           subtotal
           tax
           total
+          orderItems {
+            items {
+              id
+              orderID
+              menuItemID
+              title
+              image
+              description
+              price
+              quantity
+              createdAt
+              updatedAt
+              owner
+            }
+            nextToken
+          }
           createdAt
           updatedAt
           owner
@@ -219,6 +275,22 @@ export const onUpdateCustomer = /* GraphQL */ `
           subtotal
           tax
           total
+          orderItems {
+            items {
+              id
+              orderID
+              menuItemID
+              title
+              image
+              description
+              price
+              quantity
+              createdAt
+              updatedAt
+              owner
+            }
+            nextToken
+          }
           createdAt
           updatedAt
           owner
@@ -247,6 +319,22 @@ export const onDeleteCustomer = /* GraphQL */ `
           subtotal
           tax
           total
+          orderItems {
+            items {
+              id
+              orderID
+              menuItemID
+              title
+              image
+              description
+              price
+              quantity
+              createdAt
+              updatedAt
+              owner
+            }
+            nextToken
+          }
           createdAt
           updatedAt
           owner
@@ -269,11 +357,15 @@ export const onCreateOrder = /* GraphQL */ `
       subtotal
       tax
       total
-      items {
+      orderItems {
         items {
           id
           orderID
           menuItemID
+          title
+          image
+          description
+          price
           quantity
           createdAt
           updatedAt
@@ -297,11 +389,15 @@ export const onUpdateOrder = /* GraphQL */ `
       subtotal
       tax
       total
-      items {
+      orderItems {
         items {
           id
           orderID
           menuItemID
+          title
+          image
+          description
+          price
           quantity
           createdAt
           updatedAt
@@ -325,11 +421,15 @@ export const onDeleteOrder = /* GraphQL */ `
       subtotal
       tax
       total
-      items {
+      orderItems {
         items {
           id
           orderID
           menuItemID
+          title
+          image
+          description
+          price
           quantity
           createdAt
           updatedAt
@@ -349,6 +449,10 @@ export const onCreateOrderItem = /* GraphQL */ `
       id
       orderID
       menuItemID
+      title
+      image
+      description
+      price
       quantity
       createdAt
       updatedAt
@@ -362,6 +466,10 @@ export const onUpdateOrderItem = /* GraphQL */ `
       id
       orderID
       menuItemID
+      title
+      image
+      description
+      price
       quantity
       createdAt
       updatedAt
@@ -375,6 +483,10 @@ export const onDeleteOrderItem = /* GraphQL */ `
       id
       orderID
       menuItemID
+      title
+      image
+      description
+      price
       quantity
       createdAt
       updatedAt

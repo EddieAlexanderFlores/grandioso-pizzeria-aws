@@ -1,11 +1,5 @@
 import {Storage} from "aws-amplify";
-import {
-  Fragment,
-  MouseEventHandler,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import {Fragment, MouseEventHandler, useEffect, useState} from "react";
 import {useAppDispatch, useAppSelector} from "../../../appStore/hooks";
 import {setCartItemImageURL} from "../../../appStore/slices/cartSlice";
 import {RootState} from "../../../appStore/store";
@@ -19,7 +13,7 @@ type Props = {
 
 const CartContent = (props: Props) => {
   const [isCheckOutBtnDisabled, setIsCheckOutBtnDisabled] =
-    useState<boolean>(false);
+    useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const cart = useAppSelector((state: RootState) => state.cart);
   const user = useAppSelector((state: RootState) => state.user);
@@ -36,7 +30,7 @@ const CartContent = (props: Props) => {
         const imageURL: string = await Storage.get(item.image, {
           level: "public",
         });
-        dispatch(setCartItemImageURL({id: item.cartItemId, imageURL}));
+        dispatch(setCartItemImageURL({id: item.cartItemID, imageURL}));
       }
       setIsLoading(false);
     } catch (error) {
@@ -45,17 +39,28 @@ const CartContent = (props: Props) => {
     }
   };
 
+  const checkCart = () => {
+    if (cart.items.length > 0 && user.firstName !== "") {
+      setIsCheckOutBtnDisabled(false);
+      return;
+    }
+
+    window.scrollTo({top: 0, left: 0, behavior: "auto"});
+    setIsCheckOutBtnDisabled(true);
+  };
+
+  useEffect(() => {
+    checkCart();
+  }, [cart.items.length, user.firstName]);
+
   useEffect(() => {
     setImageURL();
   }, []);
 
   return isLoading ? (
-    <div className={styles.loader}>
-      <LoaderIcon />
-    </div>
+    <LoaderIcon />
   ) : (
     <Fragment>
-      <h2 className={styles.header}>My Cart</h2>
       {!user.firstName && (
         <p className={styles.message}>PLEASE SIGN IN TO CHECK OUT.</p>
       )}
@@ -66,7 +71,7 @@ const CartContent = (props: Props) => {
       ) : (
         <ul className={styles["cart-list"]}>
           {cart.items.map((item) => (
-            <CartItem key={item.cartItemId} item={item} />
+            <CartItem key={item.cartItemID} item={item} />
           ))}
         </ul>
       )}
@@ -89,6 +94,7 @@ const CartContent = (props: Props) => {
         </table>
         <button
           className={styles.button}
+          name="checkout"
           disabled={isCheckOutBtnDisabled}
           onClick={props.onCheckOutClick}
         >

@@ -78,7 +78,7 @@ type Order
   subtotal: Int!
   tax: Int!
   total: Int!
-  items: [OrderItem!]! @hasMany(indexName: "byOrder", fields: ["id"])
+  orderItems: [OrderItem!]! @hasMany(indexName: "byOrder", fields: ["id"])
 }
 
 type OrderItem
@@ -92,5 +92,9 @@ type OrderItem
   id: ID! # use uuid v7 to generate a unique id
   orderID: ID! @index(name: "byOrder", sortKeyFields: ["menuItemID"])
   menuItemID: ID!
+  title: String!
+  image: String!
+  description: String!
+  price: Int!
   quantity: Int!
 }
