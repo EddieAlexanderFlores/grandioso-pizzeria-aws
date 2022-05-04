@@ -5,7 +5,7 @@ import styles from "./SignInForm.module.css";
 
 type Props = {
   isButtonDisabled: boolean;
-  onSubmitSignUpForm: (user: Omit<UserType, "address" | "telephone">) => void;
+  onSubmitSignUpForm: (user: Omit<UserType, "address">) => void;
 };
 
 const SignUpForm = (props: Props) => {
@@ -17,11 +17,12 @@ const SignUpForm = (props: Props) => {
 
   const submitFormHandler = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const user: Omit<UserType, "address" | "telephone"> = {
+    const user: Omit<UserType, "address"> = {
       firstName: firstNameRef.current!.value,
       lastName: lastNameRef.current!.value,
       email: emailRef.current!.value,
       // telephone: telephoneRef.current!.value,
+      telephone: "+12223334444", // Hardcoded for now for testing purposes.
       password: passwordRef.current!.value,
     };
     props.onSubmitSignUpForm(user);
