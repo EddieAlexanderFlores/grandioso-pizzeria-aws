@@ -13,7 +13,7 @@ export const initialUserState: UserType = {
   firstName: "",
   lastName: "",
   email: "",
-  telephone: "+1",
+  telephone: "+12223334444",
   password: "",
   address: initialAddressState,
 };

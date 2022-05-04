@@ -13,8 +13,19 @@
     },
     "categories": {
       "auth": {
-        "grandiosopizzeriaaws23f4ad80": {},
-        "true": {}
+        "grandiosopizzeriaaws23f4ad80": {}
+      },
+      "function": {
+        "stripe": {
+          "deploymentBucketName": "amplify-amplifya5c3a81e928e4-staging-145504-deployment",
+          "s3Key": "amplify-builds/stripe-78693049654e724c6965-build.zip",
+          "secretsPathAmplifyAppId": "d1t2p8ezpu4zf0"
+        },
+        "stripewebhook": {
+          "secretsPathAmplifyAppId": "d1t2p8ezpu4zf0",
+          "deploymentBucketName": "amplify-amplifya5c3a81e928e4-staging-145504-deployment",
+          "s3Key": "amplify-builds/stripewebhook-435344676435462f316c-build.zip"
+        }
       }
     }
   }

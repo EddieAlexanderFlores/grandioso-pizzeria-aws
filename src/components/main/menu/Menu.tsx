@@ -8,7 +8,6 @@ import {API, Storage} from "aws-amplify";
 import {getMenuCategory} from "../../../graphql/queries";
 import {GraphQLResult} from "@aws-amplify/api-graphql";
 import LoaderIcon from "../../ui/icons/LoaderIcon";
-import styles from "./Menu.module.css";
 
 const Menu = () => {
   const [menuItems, setMenuItems] = useState<MenuItemType[]>([]);

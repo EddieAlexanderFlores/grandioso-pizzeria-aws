@@ -1,4 +1,3 @@
-import React from "react";
 import {OrderItem} from "../../../mylib/MyTypes";
 import styles from "./OrdersListItems.module.css";
 

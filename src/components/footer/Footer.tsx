@@ -35,7 +35,12 @@ const Footer = () => {
       </ul>
       <p className={styles.copyright}>
         {"Website built by "}
-        <a href="https://eddiealexanderflores.com">Eddie Alexander Flores</a>
+        <a
+          className={styles["createdby-link"]}
+          href="https://eddiealexanderflores.com"
+        >
+          Eddie Alexander Flores
+        </a>
         {" ©2022."}
       </p>
     </footer>

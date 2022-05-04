@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "paths": {
+    "/create-payment-intent": {
+      "name": "/create-payment-intent",
+      "lambdaFunction": "stripe",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/webhook": {
+      "name": "/webhook",
+      "lambdaFunction": "stripewebhook",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}

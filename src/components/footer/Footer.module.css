@@ -69,3 +69,12 @@
   text-align: center;
   margin-bottom: 10px;
 }
+
+.createdby-link {
+  color: black;
+  text-decoration: underline;
+}
+
+.createdby-link:hover {
+  color: gray;
+}

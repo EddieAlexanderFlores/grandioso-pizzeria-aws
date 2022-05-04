@@ -6,13 +6,16 @@
     "gqlSchemaPath": "D:\\VSCode\\websites\\react-js\\grandioso-pizzeria-aws\\amplify\\backend\\api\\grandiosopizzeriaaws\\schema.graphql",
     "defaultAuthType": {
       "mode": "API_KEY",
-      "expirationTime": 7
+      "expirationTime": 365,
+      "apiKeyExpirationDate": "2023-05-03T17:25:28.621Z",
+      "keyDescription": "gets the menu items from dynamoDB"
     },
     "additionalAuthTypes": [
       {
         "mode": "AMAZON_COGNITO_USER_POOLS",
         "cognitoUserPoolId": "authgrandiosopizzeriaaws23f4ad80"
       }
-    ]
+    ],
+    "conflictResolution": {}
   }
 }
