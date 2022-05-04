@@ -43,6 +43,11 @@
   outline-color: gray;
 }
 
+.password-guide {
+  color: darkgray;
+  font-size: 0.75rem;
+}
+
 .button {
   cursor: pointer;
   margin-top: 1rem;

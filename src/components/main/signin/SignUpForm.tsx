@@ -76,6 +76,10 @@ const SignUpForm = (props: Props) => {
       />
       <label className={styles.label} htmlFor="password">
         Create Password *
+        <p className={styles["password-guide"]}>
+          Six characters or more. Include uppercase, lowercase, numbers, and
+          special characters.
+        </p>
       </label>
       <input
         className={styles.input}
@@ -87,6 +91,7 @@ const SignUpForm = (props: Props) => {
         maxLength={50}
         ref={passwordRef}
       />
+
       <button
         className={styles.button}
         type="submit"
